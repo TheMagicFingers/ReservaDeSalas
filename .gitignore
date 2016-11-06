@@ -1,0 +1,4 @@
+#Arquivo de configuração do git para ignorar todos os arquivos
+#executaveis(exe) quando o projeto sofrer um commit.
+
+*.exe
