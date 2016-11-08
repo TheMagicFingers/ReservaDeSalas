@@ -49,10 +49,23 @@ void relatorio(){
 int reserva(){
     return 0;
 }
+
 int entrada_num(char texto[50]) {
     int numEntrada;
     printf("\nDigite %s", texto);
     scanf("%d", &numEntrada);
     return numEntrada;
 }
+
+int login(int cpf, int senha)
+{
+    int TrueCpf = 123456789;
+    int TrueSenha = 1234;
+    if((cpf == TrueCpf) && senha == TrueSenha){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 
