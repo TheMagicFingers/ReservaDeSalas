@@ -39,7 +39,7 @@ typedef struct
    corretos o usuário é redirecionado para o menu, caso contrário
    ele é redirecionado para a tela inicial/login.
 */
-int login(char cpf, char senha);
+int login(int cpf, int senha);
 
 /* Responsável pela função: Alan Pires
    A função "menu" imprime as opções do sistema
