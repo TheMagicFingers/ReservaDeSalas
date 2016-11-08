@@ -5,7 +5,7 @@ typedef struct
    int id;
    int numSala;
    char bloco;
-   int caraterSala;  // Lab, Anfiteatro, sala comum, auditÛrio, etc
+   int caraterSala;  // Lab, Anfiteatro, sala comum, audit√≥rio, etc
 }TipoSala;
 
 typedef struct
@@ -34,47 +34,54 @@ typedef struct
    int reserProjetor;
 }Reserva;
 
-/* Respons·vel pela funÁ„o: Lucas Vieira
-   Compara o CPF e senha do tÈcnico, caso os dados estejam
-   corretos o usu·rio È redirecionado para o menu, caso contr·rio
-   ele È redirecionado para a tela inicial/login.
+/* Respons√°vel pela fun√ß√£o: Lucas Vieira
+   Compara o CPF e senha do t√©cnico, caso os dados estejam
+   corretos o usu√°rio √© redirecionado para o menu, caso contr√°rio
+   ele √© redirecionado para a tela inicial/login.
 */
 int login(char cpf, char senha);
 
-/* Respons·vel pela funÁ„o: Alan Pires
-   A funÁ„o "menu" imprime as opÁıes do sistema
+/* Respons√°vel pela fun√ß√£o: Alan Pires
+   A fun√ß√£o "menu" imprime as op√ß√µes do sistema
 */
 void menu();
 
-/* Respons·vel pela funÁ„o: Gustavo Soares
-   Chama os "DBs" necess·rios para exibir
+/* Respons√°vel pela fun√ß√£o: Gustavo Soares
+   Chama os "DBs" necess√°rios para exibir
    detalhes sobre salas que foram reservadas
 */
 void relatorio();
 
-/* Respons·vel pela funÁ„o: Lucas Vieira
-   Verifica o tipo de operaÁ„o desejada
+/* Respons√°vel pela fun√ß√£o: Lucas Vieira
+   Verifica o tipo de opera√ß√£o desejada
    (cadastro de salas/docentes) e solicita
-   ao usu·rio as info. necess·rias e chama
-   o DB correspondente ao tipo do par‚metro.
+   ao usu√°rio as info. necess√°rias e chama
+   o DB correspondente ao tipo do par√¢metro.
 */
 void cadastrar(int op);
 
-/* Respons·vel pela funÁ„o: Gustavo Soares
+/* Respons√°vel pela fun√ß√£o: Gustavo Soares
    Cadastra uma sala armazenando-a em um arquivo
    txt
 */
 int dbSala(TipoSala sala);
 
-/* Respons·vel pela funÁ„o: Alan Pires
-   Chama um arquivo txt que contÈm
-   info sobre as datas e hor·rios em que
-   as salas est„o cadastradas
+/* Respons√°vel pela fun√ß√£o: Alan Pires
+   Chama um arquivo txt que cont√©m
+   info sobre as datas e hor√°rios em que
+   as salas est√£o cadastradas
 */
 void consultaReser();
 
-/* Respons·vel pela funÁ„o: Lucas Vieira
-   A funÁ„o pede as info necess·rias para
+/* Respons√°vel pela fun√ß√£o: Lucas Vieira
+   A fun√ß√£o pede as info necess√°rias para
    cadastrar uma reserva
 */
 int reserva();
+
+/*  Respons√°vel pela fun√ß√£o: Alan Pires
+    A fun√ß√£o recebe um texto como par√¢metro
+    e pede ao usu√°rio que digite algo referente
+    ao texto que foi recebido pela fun√ß√£o
+*/
+int entrada_char(char texto[50]);
