@@ -1,6 +1,6 @@
 /** Cabecalhos das funcoes implementadas no modulo funcoes.c */
 
-typedef struct 
+typedef struct
 {
    int id;
    int numSala;
@@ -8,14 +8,14 @@ typedef struct
    int caraterSala;  // Lab, Anfiteatro, sala comum, auditório, etc
 }TipoSala;
 
-typedef struct 
+typedef struct
 {
    int id;
    int mat;
    char nome[100];
 }Docentes;
 
-typedef struct 
+typedef struct
 {
    int id;
    int mat;
@@ -23,7 +23,7 @@ typedef struct
    char nome[100];
 }Tecnico;
 
-typedef struct 
+typedef struct
 {
    int id;
    int id_TipoSala;
@@ -39,7 +39,7 @@ typedef struct
    corretos o usuário é redirecionado para o menu, caso contrário
    ele é redirecionado para a tela inicial/login.
 */
-int login(int cpf, char senha);
+int login(char cpf, char senha);
 
 /* Responsável pela função: Alan Pires
    A função "menu" imprime as opções do sistema
@@ -53,7 +53,7 @@ void menu();
 void relatorio();
 
 /* Responsável pela função: Lucas Vieira
-   Verifica o tipo de operação desejada 
+   Verifica o tipo de operação desejada
    (cadastro de salas/docentes) e solicita
    ao usuário as info. necessárias e chama
    o DB correspondente ao tipo do parâmetro.
@@ -68,7 +68,7 @@ int dbSala(TipoSala sala);
 
 /* Responsável pela função: Alan Pires
    Chama um arquivo txt que contém
-   info sobre as datas e horários em que 
+   info sobre as datas e horários em que
    as salas estão cadastradas
 */
 void consultaReser();
@@ -76,7 +76,5 @@ void consultaReser();
 /* Responsável pela função: Lucas Vieira
    A função pede as info necessárias para
    cadastrar uma reserva
-*/ 
+*/
 int reserva();
-
-/*

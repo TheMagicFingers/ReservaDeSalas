@@ -4,8 +4,6 @@
 
 int main()
 {
-    int a = 2, b = 5;
-    printf("%d + %d = %d", a, b, soma(a,b)); // APENAS PARA TESTE
-    printf("\n%d + %d = %d", a, b, sub(a,b)); // APENAS PARA UM OUTRO TESTE
+    menu();
     return 0;
 }
