@@ -4,6 +4,11 @@
 
 int main()
 {
-    menu();
+    if(login(entrada_num("CPF"), entrada_num("Senha") == 1){
+        menu();
+    }else{
+        printf("CPF ou senha incorretos, por favor tente novamente: \n");
+        login(entrada_num("CPF"), entrada_num("Senha"));
+    }
     return 0;
 }
