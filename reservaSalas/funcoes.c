@@ -1,4 +1,4 @@
-/** Arquivo onde serão inseridas as funções */
+/** Arquivo onde serÃ£o inseridas as funÃ§Ãµes */
 
 void menu(){
     int op, op_cad;
@@ -49,3 +49,10 @@ void relatorio(){
 int reserva(){
     return 0;
 }
+int entrada_num(char texto[50]) {
+    int numEntrada;
+    printf("\nDigite %s", texto);
+    scanf("%d", &numEntrada);
+    return numEntrada;
+}
+
