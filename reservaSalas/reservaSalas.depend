@@ -1,14 +1,18 @@
 # depslib dependency file v1.0
 1478464370 source:c:\users\vieira\documents\reservasalas\funcoes.c
 
-1478469993 source:c:\users\gustavo\documents\github\reservadesalas\reservasalas\funcoes.c
+1478732472 source:c:\users\gustavo\documents\github\reservadesalas\reservasalas\funcoes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funcoes.h"
 
-1478469998 source:c:\users\gustavo\documents\github\reservadesalas\reservasalas\main.c
+1478715175 source:c:\users\gustavo\documents\github\reservadesalas\reservasalas\main.c
 	<stdio.h>
 	<stdlib.h>
 	"funcoes.h"
 
-1478469989 c:\users\gustavo\documents\github\reservadesalas\reservasalas\funcoes.h
+1478730031 c:\users\gustavo\documents\github\reservadesalas\reservasalas\funcoes.h
 
 1478615243 source:c:\users\alunotgn\documents\github\reservadesalas\reservasalas\funcoes.c
 

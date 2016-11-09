@@ -84,4 +84,12 @@ int reserva();
     e pede ao usuário que digite algo referente
     ao texto que foi recebido pela função
 */
-int entrada_char(char texto[50]);
+int entrada_num(char texto[50]);
+
+/*
+    Responsavel pela função: Gustavo Soares
+    Caso o número da sala informado ja esteja no
+    arquivo texto a funcao retorna 0 para informar
+    a duplicidade da informação
+*/
+int verifica_registro(int numSala);

@@ -1,46 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "funcoes.h"
+
 /** Arquivo onde serão inseridas as funções */
 
 void menu(){
-    int op, op_cad;
 
-    printf("\t\tInforme a opcao desejada\n");
-    printf("[1] - Realizar um novo cadastro.\n");
-    printf("[2] - Realizar uma consulta ao sistema.\n");
-    printf("[3] - Reservar uma sala.\n");
-    printf("[4] - Elaborar um relatorio.\n");
-
-    scanf("%d", &op);
-
-    switch(op){
-    case 1:
-        system("cls");
-        printf("Cadastros\n");
-        printf("[1] - Realizar Cadastro de Sala.\n");
-        printf("[2] - Realizar Cadastro de Docente.\n");
-        scanf("%d", &op_cad);
-        cadastrar(op_cad);
-        break;
-    case 2:
-        consultaReser();
-        break;
-    case 3:
-        reserva();
-        break;
-    case 4:
-        relatorio();
-        break;
-    default:
-        printf("Opcao Invalida!\n");
-    }
+    printf("Menu\n");
+/*
+    ~[1] - Realizar um novo cadastro
+        +[1] - Sala
+        +[2] - Docente
+    ~[2] - Realizar uma consulta ao sistema
+    ~[3] - Reservar uma sala
+    ~[4] - Elaborar um relatorio
+    ~[5] - Sair
+*/
 }
 
 
 void cadastrar(int op){
-    printf("Operacao desejada: %d\n", op);
 }
 
 void consultaReser(){
 
+}
+
+int dbSala(TipoSala tipoSala){
+
+    int flg = 1;
+    FILE *arq;//ponteiro para o tipo arquivo
+    arq = fopen("db/dbSala.txt", "a");//abro o arquivo no modo a -> append
+
+    //falta implementar
+    verifica_registro(tipoSala.numSala);
+
+    if(arq != NULL){//caso a variavel n esteja nula posso operar sobre ela.
+        fprintf(arq,"%d ", 1);//id temporariamente 1 e escrevo no txt
+        fputc(strupr(tipoSala.bloco), arq);//escrevo o bloco em letra maiuscula no arq
+        fprintf(arq, " %d %d\n",tipoSala.numSala, tipoSala.caraterSala);//escrevo os outros dados da struct e dou um \n
+    }else{
+        printf("Erro ao abrir banco de dados!\n");
+        flg = 0;
+    }
+
+    fclose(arq);//fecho o arquivo txt
+    return flg;//flg = 1 -> op bem sucedida | flg = 0 -> ocorreu algum erro de leitura.
+}
+
+int verifica_registro(int numSala){
+
+    FILE *arq;//ponteiro de tipo arquivo
+    arq = fopen("db/dbSala.txt", "r");//aponto o arq para o dbSala
+    int linhas = 0;//variavel para contar quantas linhas o txt tem
+
+    while(!feof(arq)){//enquanto arq != do feof (end of file)
+        if(fgetc(arq) == '\n'){
+            linhas++;//dou um ++ quando encontro uma quebra de linha
+        }            //oq significa q tenho mais uma linha
+    }
+
+    printf("Registros: %d\n",linhas);
+
+    printf("\nFalta implementrar a verificacao de duplicidade.\n");
+    return 0;
+}
+
+int dbDocente(Docentes docente){
+    printf("OK!\n");
+    system("pause && cls");
+    menu();
+    return 0;
 }
 
 void relatorio(){
@@ -52,7 +83,7 @@ int reserva(){
 
 int entrada_num(char texto[50]) {
     int numEntrada;
-    printf("\nDigite %s", texto);
+    printf("\nDigite %s: ", texto);
     scanf("%d", &numEntrada);
     return numEntrada;
 }
