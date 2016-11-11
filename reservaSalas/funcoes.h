@@ -71,7 +71,7 @@ int dbSala(TipoSala sala);
    info sobre as datas e horários em que
    as salas estão cadastradas
 */
-void consultaReser();
+void consultaReser(int op_res);
 
 /* Responsável pela função: Lucas Vieira
    A função pede as info necessárias para
@@ -88,8 +88,14 @@ int entrada_num(char texto[50]);
 
 /*
     Responsavel pela função: Gustavo Soares
-    Caso o número da sala informado ja esteja no
+    Caso o número e o bloco da sala informado ja esteja no
     arquivo texto a funcao retorna 0 para informar
     a duplicidade da informação
 */
-int verifica_registro(int numSala);
+int registro_duplicado(int numSala, char bloco);
+
+/*
+    Responsavel pela função: Gustavo Soares
+    retorna o id da ultima sala cadastrada
+*/
+int getId_tipoSala();
