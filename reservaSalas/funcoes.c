@@ -88,18 +88,37 @@ void cadastrar(int op){
             break;
         case 1:
             switch(op){
+                case 1: ;
+                    TipoSala tipoSala;
+                    printf("Informe o numero da sala: ");
+                    scanf("%d", &tipoSala.numSala);
+                    printf("Informe o bloco da sala: ");
+                    fflush(stdin);
+                    tipoSala.bloco = getchar();
+                    printf("[1] Laboratorio\n[2] Sala Comum\n");
+                    scanf("%d", &tipoSala.caraterSala);
+                    tipoSala.id = getId_tipoSala();//o id da sala atual vai ser o id anterior incrementado em 1
+                    if(dbSala(tipoSala)){
+                        printf("Sala salva com sucesso!\n");
+                    }
+                    system("pause");
+                    menu();
                 case 2: ; // NÃO APAGUE O ; Ler observação 1 no final do arquivo
                     Docentes docente;
-                    docente.id = 1;
+                    docente.id = getId_docente();
                     printf("Digite a matricula: ");
                     scanf("%d", &docente.mat);
                     fflush(stdin);
                     printf("Digite o nome: ");
                     gets(docente.nome);
 
-                    printf("ID: %d  ", docente.id);
-                    printf("Nome: %s  ", docente.nome);
-                    printf("Matricula: %d  ", docente.mat);
+                    //printf("ID: %d  ", docente.id);
+                    //printf("Nome: %s  ", docente.nome);
+                    //printf("Matricula: %d  ", docente.mat);
+
+                    if(dbDocente(docente)){
+                        printf("Docente cadastrado com sucesso!\n");
+                    }
                     system("pause");
                     menu();
                     break;
@@ -111,20 +130,6 @@ void cadastrar(int op){
             printf("Opção invalida\n");
             break;
     }
-    //fiz so a parte da sala para testar
-    //nao levei em conta o op que esta chegando como paramentro
-    /*TipoSala tipoSala;
-    printf("Numero: ");
-    scanf("%d", &tipoSala.numSala);
-    printf("Bloco: ");
-    fflush(stdin);
-    tipoSala.bloco = getchar();
-    printf("[1] Laboratorio\n[2] Sala Comum\n");
-    scanf("%d", &tipoSala.caraterSala);
-    tipoSala.id = getId_tipoSala();//o id da sala atual vai ser o id anterior incrementado em 1
-    dbSala(tipoSala);
-    system("pause");
-    menu();*/
 }
 
 //alterei a funcao consulta reserva para que ela fique mais generica da seguinte forma:
@@ -153,7 +158,12 @@ void consultaReser(int op_res){
             }
         }
     }else if(op_res == 2){//caso a op_res seja 2 -> consulta de docentes
-        printf("Lista de Docentes cadastrados\n");
+        Docentes docente;
+        arq = fopen("db/dbDocente.dat", "rb");
+        printf("Docentes cadastrados\n");
+        while(fread(&docente, sizeof docente, 1, arq)){
+            printf("ID: %d Nome: %-10sMatricula: %d\n", docente.id, docente.nome, docente.mat);
+        }
     }else if(op_res == 3){//caso a op_res seja 3 -> consulta de reservas
         printf("Lista de reservas\n");
     }
@@ -172,14 +182,14 @@ int dbSala(TipoSala tipoSala){
     //falta implementar
 
     if(arq != NULL){//caso a variavel n esteja nula posso operar sobre ela.
-        if(registro_duplicado(tipoSala.numSala, tipoSala.bloco)){
+        if(registro_duplicado_sala(tipoSala.numSala, tipoSala.bloco)){
             fwrite(&tipoSala, sizeof(tipoSala), 1, arq);
-            printf("Sala cadastrada com sucesso!\n");
         }else{
+            flg = 0;
             printf("Erro: Informacao duplicado!\n");
         }
     }else{
-        printf("Erro ao abrir banco de dados!\n");
+        printf("Erro ao abrir banco de dados <SALA>!\n");
         flg = 0;
     }
 
@@ -187,7 +197,7 @@ int dbSala(TipoSala tipoSala){
     return flg;//flg = 1 -> op bem sucedida | flg = 0 -> ocorreu algum erro de leitura.
 }
 
-int registro_duplicado(int numSala, char bloco){
+int registro_duplicado_sala(int numSala, char bloco){
 
     TipoSala ts;
     FILE *arq;//ponteiro de tipo arquivo
@@ -199,6 +209,7 @@ int registro_duplicado(int numSala, char bloco){
             if(ts.bloco == bloco && ts.numSala == numSala){
                 //caso o dado informado ja esteja no arquivo, flg = 0 e n salvo os dados atuais.
                 flg = 0;
+                break;
             }
         }
     }
@@ -227,10 +238,62 @@ int getId_tipoSala(){
 }
 
 int dbDocente(Docentes docente){
-    printf("OK!\n");
-    system("pause && cls");
-    menu();
-    return 0;
+    int flg = 1;
+    FILE *arq;
+    arq = fopen("db/dbDocente.dat", "a");
+
+    if(arq != NULL){
+            if(registro_duplicado_docente(docente.mat)){
+                fwrite(&docente, sizeof(docente), 1, arq);
+            }else{
+                flg = 0;
+                printf("Erro: Matricula duplicada!\n");
+            }
+    }else{
+        printf("Erro ao abrir bando de dados dbDocente.dat\n");
+        flg = 0;
+    }
+    fclose(arq);
+    return flg;
+}
+
+int registro_duplicado_docente(int matricula){
+    Docentes docente;
+    int flg = 1;
+    FILE *arq;
+    arq = fopen("db/dbDocente.dat", "rb");
+    if(arq != NULL){
+        while(fread(&docente, sizeof(docente), 1, arq)){
+            if(matricula == docente.mat){
+                flg = 0;
+                break;
+            }
+        }
+    }else{
+        printf("Arquivo errado!\n");
+    }
+
+    //system("pause");
+    fclose(arq);
+    return flg;
+}
+
+int getId_docente(){
+    Docentes docente;
+    int last_id;
+    FILE *arq;
+    arq = fopen("db/dbDocente.dat", "rb");
+
+    if(arq != NULL){
+        while(fread(&docente, sizeof(docente), 1, arq)){
+            last_id = docente.id;
+        }
+    }else{
+        printf("Erro ao abrir dbDocente.dat!\n");
+    }
+
+    fclose(arq);
+    return last_id+1;
 }
 
 void relatorio(){
@@ -258,6 +321,8 @@ int login(int senha, int cpf){ // Primeiro recebe a senha e depois o cpf devido 
         printf("O cpf ou a senha estao incorretos. Tente novamente.\n");
         login(entrada_num("Senha"), entrada_num("CPF")); //chama funcao login novamente até que o usuário acerte o login.
     }
+
+    return 0;
 }
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration

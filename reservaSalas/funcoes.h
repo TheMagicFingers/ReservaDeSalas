@@ -66,11 +66,18 @@ void cadastrar(int op);
 */
 int dbSala(TipoSala sala);
 
+/* Responsável pela função: Gustavo Soares
+   Cadastra um docente armazenando-o em um arquivo
+   dat
+*/
+int dbDocente(Docentes docente);
+
 /* Responsável pela função: Alan Pires
    Chama um arquivo txt que contém
    info sobre as datas e horários em que
    as salas estão cadastradas
 */
+
 void consultaReser(int op_res);
 
 /* Responsável pela função: Lucas Vieira
@@ -92,10 +99,24 @@ int entrada_num(char texto[50]);
     arquivo texto a funcao retorna 0 para informar
     a duplicidade da informação
 */
-int registro_duplicado(int numSala, char bloco);
+int registro_duplicado_sala(int numSala, char bloco);
 
 /*
     Responsavel pela função: Gustavo Soares
     retorna o id da ultima sala cadastrada
 */
 int getId_tipoSala();
+
+/*
+    Responsavel pela função: Gustavo Soares
+    Caso a matricula informada ja esteja no
+    arquivo texto a funcao retorna 0 para informar
+    a duplicidade da informação
+*/
+int registro_duplicado_docente(int matricula);
+
+/*
+    Responsavel pela função: Gustavo Soares
+    retorna o id do ultimo docente cadastrado
+*/
+int getId_docente();
