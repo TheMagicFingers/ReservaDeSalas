@@ -6,7 +6,6 @@
 /** Arquivo onde serão inseridas as funções */
 
 void menu(){
-
     int op, op_cad, op_res;
     system("cls");
     printf("SISTEMA DE CADASTRO DE SALAS\n");
@@ -66,6 +65,7 @@ void menu(){
         relatorio();
         break;
     case 5:
+        exit(0);
         break;
     default:
         printf("Opcao invalida!\n");
@@ -76,23 +76,55 @@ void menu(){
 }
 
 void cadastrar(int op){
+    system("cls");
+    int sair;
+    printf("Deseja Continuar? \n");
+    printf("[1] - Sim\n");
+    printf("[2] - Nao\n");
+    scanf("%d", &sair);
+    switch(sair){
+        case 2:
+            menu();
+            break;
+        case 1:
+            switch(op){
+                case 2: ; // NÃO APAGUE O ; Ler observação 1 no final do arquivo
+                    Docentes docente;
+                    docente.id = 1;
+                    printf("Digite a matricula: ");
+                    scanf("%d", &docente.mat);
+                    fflush(stdin);
+                    printf("Digite o nome: ");
+                    gets(docente.nome);
+
+                    printf("ID: %d  ", docente.id);
+                    printf("Nome: %s  ", docente.nome);
+                    printf("Matricula: %d  ", docente.mat);
+                    system("pause");
+                    menu();
+                    break;
+                default:
+                    printf("Opcao invalida\n");
+                    break;
+            }
+        default:
+            printf("Opção invalida\n");
+            break;
+    }
     //fiz so a parte da sala para testar
     //nao levei em conta o op que esta chegando como paramentro
-    TipoSala tipoSala;
-
+    /*TipoSala tipoSala;
     printf("Numero: ");
     scanf("%d", &tipoSala.numSala);
-
     printf("Bloco: ");
     fflush(stdin);
     tipoSala.bloco = getchar();
     printf("[1] Laboratorio\n[2] Sala Comum\n");
     scanf("%d", &tipoSala.caraterSala);
-
     tipoSala.id = getId_tipoSala();//o id da sala atual vai ser o id anterior incrementado em 1
     dbSala(tipoSala);
     system("pause");
-    menu();
+    menu();*/
 }
 
 //alterei a funcao consulta reserva para que ela fique mais generica da seguinte forma:
@@ -224,6 +256,12 @@ int login(int senha, int cpf){ // Primeiro recebe a senha e depois o cpf devido 
         menu();
     }else{
         printf("O cpf ou a senha estao incorretos. Tente novamente.\n");
-        login(entrada_num("Senha"), entrada_num("CPF"));
+        login(entrada_num("Senha"), entrada_num("CPF")); //chama funcao login novamente até que o usuário acerte o login.
     }
 }
+/** OBS 1:
+This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
+(such as char *str ...;), only before a statement (printf(...);). In C89 this was no great difficulty because
+declarations could only appear at the very beginning of a block, so you could always move the label down a bit and
+avoid the issue. In C99 you can mix declarations and code, but you still can't put a label immediately before a declaration.
+You can put a semicolon immediately after the label's colon to make there be an empty statement (https://goo.gl/6SwXRB) **/
