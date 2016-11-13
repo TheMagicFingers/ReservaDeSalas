@@ -406,6 +406,10 @@ int login(int senha, int cpf){ // Primeiro recebe a senha e depois o cpf devido 
     return 0;
 }
 
+
+void desenhar_logo(){
+
+}
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
 (such as char *str ...;), only before a statement (printf(...);). In C89 this was no great difficulty because
