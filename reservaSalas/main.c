@@ -4,12 +4,7 @@
 
 int main()
 {
-    menu();
-//    if(login(entrada_num("CPF"), entrada_num("Senha") == 1)){
-//        menu();
-//    }else{
-//        printf("CPF ou senha incorretos, por favor tente novamente: \n");
-//        login(entrada_num("CPF"), entrada_num("Senha"));
-//    }
+
+    login(entrada_num("Senha"), entrada_num("CPF")); // Primeiro recebe a senha e depois o cpf devido à ordem de precedêcia do C.
     return 0;
 }
