@@ -28,9 +28,9 @@ typedef struct
    int id;
    int id_TipoSala;
    int id_Docente;
-   char data[10];
-   char horaEntrada[5];
-   char horaSaida[5];
+   char data[15];
+   char horaEntrada[10];
+   char horaSaida[10];
    int reserProjetor;
 }Reserva;
 
@@ -72,6 +72,12 @@ int dbSala(TipoSala sala);
 */
 int dbDocente(Docentes docente);
 
+/* Responsável pela função: Gustavo Soares
+   Cadastra uma reserva armazenando-a em um arquivo
+   dat
+*/
+int dbReserva(Reserva reserva);
+
 /* Responsável pela função: Alan Pires
    Chama um arquivo txt que contém
    info sobre as datas e horários em que
@@ -84,7 +90,7 @@ void consultaReser(int op_res);
    A função pede as info necessárias para
    cadastrar uma reserva
 */
-int reserva();
+void reserva();
 
 /*  Responsável pela função: Alan Pires
     A função recebe um texto como parâmetro
@@ -106,6 +112,12 @@ int registro_duplicado_sala(int numSala, char bloco);
     retorna o id da ultima sala cadastrada
 */
 int getId_tipoSala();
+
+/*
+    Responsavel pela função: Gustavo Soares
+    retorna o id da ultima reserva
+*/
+int getId_reserva();
 
 /*
     Responsavel pela função: Gustavo Soares

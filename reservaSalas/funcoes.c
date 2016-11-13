@@ -165,7 +165,20 @@ void consultaReser(int op_res){
             printf("ID: %d Nome: %-10sMatricula: %d\n", docente.id, docente.nome, docente.mat);
         }
     }else if(op_res == 3){//caso a op_res seja 3 -> consulta de reservas
+        Reserva reserva;
+        arq = fopen("db/dbReserva.dat", "rb");
         printf("Lista de reservas\n");
+        while(fread(&reserva, sizeof(reserva), 1, arq)){
+            printf("Reserva %d\n", reserva.id);
+            printf("Data: %s\n", reserva.data);
+            printf("De %s as %s\n", reserva.horaEntrada, reserva.horaSaida);
+            printf("Professor responsavel: %d\n", reserva.id_Docente);
+            printf("Sala: %d\n", reserva.id_TipoSala);
+            if(reserva.reserProjetor == 1){
+                printf("O projetor tambem foi reservado!\n");
+            }
+            printf("\n");
+        }
     }
 
     fclose(arq);
@@ -300,9 +313,76 @@ void relatorio(){
     printf("Falta implementar!\n");
 }
 
-int reserva(){
-    printf("Falta implementar!\n");
-    return 0;
+void reserva(){
+    system("cls");
+    printf("\t\t--- Reserva de Sala ---\n");
+    Reserva reserva;
+    printf("Data e hora da reserva\n");
+
+    printf("Informe a data (dd/mm/aaaa)\n");
+    fflush(stdin);
+    gets(reserva.data);
+
+    printf("Hora de entrada (hh:mm)\n");
+    fflush(stdin);
+    gets(reserva.horaEntrada);
+
+    printf("Hora de saida (hh:mm)\n");
+    fflush(stdin);
+    gets(reserva.horaSaida);
+
+    printf("Sala e responsavel\n");
+    printf("Informe o id da sala: ");//funcao para encontrar o nome da sala
+    scanf("%d", &reserva.id_TipoSala);
+
+    printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
+    scanf("%d", &reserva.id_Docente);
+
+    printf("Reserva de projetor\n[1] - Sim\n[2] - Nao\n");
+    scanf("%d", &reserva.reserProjetor);
+    reserva.id = getId_reserva();
+
+    if(dbReserva(reserva)){
+        printf("Reserva Cadastrada com sucesso!\n");
+    }
+
+    system("pause");
+    menu();
+}
+
+int dbReserva(Reserva reserva){
+
+    int flg = 1;
+    FILE *arq;
+    arq = fopen("db/dbReserva.dat", "a");
+
+    if(arq != NULL){
+        fwrite(&reserva, sizeof(reserva), 1, arq);
+    }else{
+        flg = 0;
+        printf("Erro ao abrir dbReserva.dat");
+    }
+
+    fclose(arq);
+    return flg;
+}
+
+int getId_reserva(){
+    Reserva reserva;
+    int last_id;
+    FILE *arq;
+    arq = fopen("db/dbReserva.dat", "rb");
+
+    if(arq != NULL){
+        while(fread(&reserva, sizeof(reserva), 1, arq)){
+            last_id = reserva.id;
+        }
+    }else{
+        printf("Erro ao abrir dbReserva.dat!\n");
+    }
+
+    fclose(arq);
+    return last_id+1;
 }
 
 int entrada_num(char texto[50]){
@@ -319,14 +399,17 @@ int login(int senha, int cpf){ // Primeiro recebe a senha e depois o cpf devido 
         menu();
     }else{
         printf("O cpf ou a senha estao incorretos. Tente novamente.\n");
+        system("pause && cls");
         login(entrada_num("Senha"), entrada_num("CPF")); //chama funcao login novamente até que o usuário acerte o login.
     }
 
     return 0;
 }
+
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
 (such as char *str ...;), only before a statement (printf(...);). In C89 this was no great difficulty because
 declarations could only appear at the very beginning of a block, so you could always move the label down a bit and
 avoid the issue. In C99 you can mix declarations and code, but you still can't put a label immediately before a declaration.
-You can put a semicolon immediately after the label's colon to make there be an empty statement (https://goo.gl/6SwXRB) **/
+You can put a semicolon immediately after the label's colon to make there be an empty statement (https://goo.gl/6SwXRB)
+**/
