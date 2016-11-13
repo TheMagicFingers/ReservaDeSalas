@@ -210,19 +210,20 @@ int reserva(){
     return 0;
 }
 
-int entrada_num(char texto[50]) {
+int entrada_num(char texto[50]){
     int numEntrada;
     printf("\nDigite %s: ", texto);
     scanf("%d", &numEntrada);
     return numEntrada;
 }
 
-int login(int cpf, int senha){
-    int TrueCpf = 123456789;
+int login(int senha, int cpf){ // Primeiro recebe a senha e depois o cpf devido à ordem de precedêcia do C.
+    int TrueCpf = 123456;
     int TrueSenha = 1234;
     if((cpf == TrueCpf) && senha == TrueSenha){
-        return 1;
+        menu();
     }else{
-        return 0;
+        printf("O cpf ou a senha estao incorretos. Tente novamente.\n");
+        login(entrada_num("Senha"), entrada_num("CPF"));
     }
 }
