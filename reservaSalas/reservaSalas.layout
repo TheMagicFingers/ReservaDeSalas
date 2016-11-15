@@ -2,41 +2,41 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="BibConio.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="497" topLine="3" />
+		</Cursor>
+	</File>
 	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="111" topLine="0" />
+			<Cursor1 position="94" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="funcoes.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2825" topLine="81" />
+			<Cursor1 position="3557" topLine="110" />
 		</Cursor>
-		<Folding>
-			<Collapse line="3" />
-			<Collapse line="11" />
-			<Collapse line="18" />
-			<Collapse line="26" />
-		</Folding>
 	</File>
 	<File name="funcoes.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11584" topLine="100" />
+			<Cursor1 position="5401" topLine="147" />
 		</Cursor>
 		<Folding>
-			<Collapse line="77" />
-			<Collapse line="140" />
-			<Collapse line="188" />
-			<Collapse line="212" />
-			<Collapse line="232" />
-			<Collapse line="252" />
-			<Collapse line="272" />
-			<Collapse line="293" />
-			<Collapse line="311" />
-			<Collapse line="315" />
-			<Collapse line="352" />
-			<Collapse line="369" />
-			<Collapse line="387" />
-			<Collapse line="394" />
+			<Collapse line="109" />
+			<Collapse line="230" />
+			<Collapse line="283" />
+			<Collapse line="307" />
+			<Collapse line="327" />
+			<Collapse line="347" />
+			<Collapse line="367" />
+			<Collapse line="388" />
+			<Collapse line="406" />
+			<Collapse line="410" />
+			<Collapse line="448" />
+			<Collapse line="465" />
+			<Collapse line="483" />
+			<Collapse line="490" />
+			<Collapse line="504" />
 		</Folding>
 	</File>
 </CodeBlocks_layout_file>

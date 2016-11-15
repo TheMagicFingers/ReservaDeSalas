@@ -6,15 +6,17 @@
 /** Arquivo onde serão inseridas as funções */
 
 void menu(){
-    int op, op_cad, op_res;
+    int op, op_cad, op_res, op_ed;
     system("cls");
     printf("SISTEMA DE CADASTRO DE SALAS\n");
 
     printf("[1] - Realizar um novo cadastro\n");
     printf("[2] - Realizar uma consulta ao sistema\n");
     printf("[3] - Reservar uma sala\n");
-    printf("[4] - Elaborar um relatorio\n");
-    printf("[5] - Sair\n");
+    printf("[4] - Editar dados\n");
+    printf("[5] - Excluir dados\n");
+    printf("[6] - Elaborar um relatorio\n");
+    printf("[7] - Sair\n");
     scanf("%d", &op);
 
     switch(op){
@@ -62,9 +64,39 @@ void menu(){
         reserva();
         break;
     case 4:
-        relatorio();
+        system("cls");
+        printf("\t\t---Tela de Edicao---\n");
+        printf("[1] - Editar Sala\n");
+        printf("[2] - Editar Docente\n");
+        printf("[3] - Editar Reserva\n");
+        printf("[4] - Voltar\n");
+
+        scanf("%d", &op_ed);
+        switch(op_ed){
+        case 1:
+            editarSala();
+            break;
+        case 2:
+            printf("Falta implementar edicao de docentes!\n");
+            break;
+        case 3:
+            printf("Falta implementar edicao de reservas!\n");
+            break;
+        case 4:
+            menu();
+            break;
+        default:
+            printf("Opcao invalida!\n");
+            system("pause");
+        }
         break;
     case 5:
+        excluirSala();
+        break;
+    case 6:
+        relatorio();
+        break;
+    case 7:
         exit(0);
         break;
     default:
@@ -97,6 +129,7 @@ void cadastrar(int op){
                     tipoSala.bloco = getchar();
                     printf("[1] Laboratorio\n[2] Sala Comum\n");
                     scanf("%d", &tipoSala.caraterSala);
+                    //tipoSala.id = 1;
                     tipoSala.id = getId_tipoSala();//o id da sala atual vai ser o id anterior incrementado em 1
                     if(dbSala(tipoSala)){
                         printf("Sala salva com sucesso!\n");
@@ -111,10 +144,6 @@ void cadastrar(int op){
                     fflush(stdin);
                     printf("Digite o nome: ");
                     gets(docente.nome);
-
-                    //printf("ID: %d  ", docente.id);
-                    //printf("Nome: %s  ", docente.nome);
-                    //printf("Matricula: %d  ", docente.mat);
 
                     if(dbDocente(docente)){
                         printf("Docente cadastrado com sucesso!\n");
@@ -132,23 +161,24 @@ void cadastrar(int op){
     }
 }
 
+void consultaReser(int op_res){
 //alterei a funcao consulta reserva para que ela fique mais generica da seguinte forma:
 //no menu peco para o usuario informar qual objeto ele quer consultar:
 //1 - Salas
 //2 - Docentes
 //3 - Reservas
 //e com isso faço o tratamento para listar os dados corretamente.
-void consultaReser(int op_res){
-
     FILE *arq;
 
     if(op_res == 1){//caso a op_res seja 1 -> consulta de salas
-        arq = fopen("db/dbSala.dat", "rb");
+        arq = fopen("db/dbSala.bin", "rb");
+        system("cls");
         TipoSala tipoSala;
         printf("Lista de Salas cadastradas\n");
-        while (fread(&tipoSala, sizeof tipoSala, 1, arq)){//abro o dbSala.dat e listo os registros contido nele
-            printf("ID: %d ",tipoSala.id);
-            printf("Sala: %c%-6dTipo: ",tipoSala.bloco,tipoSala.numSala);
+        printf("ID\tSala\tTipo\n");
+        while (fread(&tipoSala, sizeof tipoSala, 1, arq)){//abro o dbSala.bin e listo os registros contido nele
+            printf("%d\t",tipoSala.id);
+            printf("%c%-6d\t",tipoSala.bloco,tipoSala.numSala);
             if(tipoSala.caraterSala == 1){
                 printf("Laboratorio\n");
             }else if(tipoSala.caraterSala){
@@ -159,14 +189,14 @@ void consultaReser(int op_res){
         }
     }else if(op_res == 2){//caso a op_res seja 2 -> consulta de docentes
         Docentes docente;
-        arq = fopen("db/dbDocente.dat", "rb");
+        arq = fopen("db/dbDocente.bin", "rb");
         printf("Docentes cadastrados\n");
         while(fread(&docente, sizeof docente, 1, arq)){
             printf("ID: %d Nome: %-10sMatricula: %d\n", docente.id, docente.nome, docente.mat);
         }
     }else if(op_res == 3){//caso a op_res seja 3 -> consulta de reservas
         Reserva reserva;
-        arq = fopen("db/dbReserva.dat", "rb");
+        arq = fopen("db/dbReserva.bin", "rb");
         printf("Lista de reservas\n");
         while(fread(&reserva, sizeof(reserva), 1, arq)){
             printf("Reserva %d\n", reserva.id);
@@ -182,6 +212,7 @@ void consultaReser(int op_res){
     }
 
     fclose(arq);
+    printf("\n");
     system("pause");
     menu();
 }
@@ -190,7 +221,7 @@ int dbSala(TipoSala tipoSala){
 
     int flg = 1;
     FILE *arq;//ponteiro para o tipo arquivo
-    arq = fopen("db/dbSala.dat", "a");//abro o arquivo no modo a -> append
+    arq = fopen("db/dbSala.bin", "a");//abro o arquivo no modo a -> append
 
     //falta implementar
 
@@ -214,7 +245,7 @@ int registro_duplicado_sala(int numSala, char bloco){
 
     TipoSala ts;
     FILE *arq;//ponteiro de tipo arquivo
-    arq = fopen("db/dbSala.dat", "rb");//aponto o arq para o dbSala
+    arq = fopen("db/dbSala.bin", "rb");//aponto o arq para o dbSala
     int flg = 1;
 
     if(arq != NULL){
@@ -233,27 +264,36 @@ int registro_duplicado_sala(int numSala, char bloco){
 int getId_tipoSala(){
 
     FILE *arq;
-    arq = fopen("db/dbSala.dat", "rb");
+    arq = fopen("db/dbSala.bin", "rb");
 
-    TipoSala ts;
-    int last_id;
+    TipoSala tipoSala;
+    int last_id, maior, i=0;
 
     if(arq != NULL){
-        while(fread(&ts, sizeof ts, 1, arq)){
-            last_id = ts.id;
-            //listo todos os ids e quando sair do while a var last_id vai conter o ultimo id
+        while(fread(&tipoSala, sizeof tipoSala, 1, arq)){
+            last_id = tipoSala.id;
+            if(i==0){
+                maior = last_id;
+            }else if(last_id > maior){
+                maior = last_id;
+            }
+            i++;
         }
     }
 
     fclose(arq);
+
+    if(i == 0){//significa que o arquivo esta vazio e nao existe id para fazer o incremento
+        maior = 0;
+    }
     //retorno o last_id incrementado para ser id do novo objeto.
-    return last_id + 1;
+    return maior + 1;
 }
 
 int dbDocente(Docentes docente){
     int flg = 1;
     FILE *arq;
-    arq = fopen("db/dbDocente.dat", "a");
+    arq = fopen("db/dbDocente.bin", "a");
 
     if(arq != NULL){
             if(registro_duplicado_docente(docente.mat)){
@@ -263,7 +303,7 @@ int dbDocente(Docentes docente){
                 printf("Erro: Matricula duplicada!\n");
             }
     }else{
-        printf("Erro ao abrir bando de dados dbDocente.dat\n");
+        printf("Erro ao abrir bando de dados dbDocente.bin\n");
         flg = 0;
     }
     fclose(arq);
@@ -274,7 +314,7 @@ int registro_duplicado_docente(int matricula){
     Docentes docente;
     int flg = 1;
     FILE *arq;
-    arq = fopen("db/dbDocente.dat", "rb");
+    arq = fopen("db/dbDocente.bin", "rb");
     if(arq != NULL){
         while(fread(&docente, sizeof(docente), 1, arq)){
             if(matricula == docente.mat){
@@ -293,20 +333,30 @@ int registro_duplicado_docente(int matricula){
 
 int getId_docente(){
     Docentes docente;
-    int last_id;
+    int last_id, maior,i=0;
     FILE *arq;
-    arq = fopen("db/dbDocente.dat", "rb");
+    arq = fopen("db/dbDocente.bin", "rb");
 
     if(arq != NULL){
         while(fread(&docente, sizeof(docente), 1, arq)){
             last_id = docente.id;
+            if(i==0){
+                maior = last_id;
+            }else if(last_id > maior){
+                maior = last_id;
+            }
+            i++;
         }
     }else{
-        printf("Erro ao abrir dbDocente.dat!\n");
+        printf("Erro ao abrir dbDocente.bin!\n");
+    }
+
+    if(i == 0){
+        maior = 0;
     }
 
     fclose(arq);
-    return last_id+1;
+    return maior+1;
 }
 
 void relatorio(){
@@ -340,7 +390,8 @@ void reserva(){
 
     printf("Reserva de projetor\n[1] - Sim\n[2] - Nao\n");
     scanf("%d", &reserva.reserProjetor);
-    reserva.id = getId_reserva();
+    //reserva.id = getId_reserva();
+    reserva.id = 1;
 
     if(dbReserva(reserva)){
         printf("Reserva Cadastrada com sucesso!\n");
@@ -354,13 +405,13 @@ int dbReserva(Reserva reserva){
 
     int flg = 1;
     FILE *arq;
-    arq = fopen("db/dbReserva.dat", "a");
+    arq = fopen("db/dbReserva.bin", "a");
 
     if(arq != NULL){
         fwrite(&reserva, sizeof(reserva), 1, arq);
     }else{
         flg = 0;
-        printf("Erro ao abrir dbReserva.dat");
+        printf("Erro ao abrir dbReserva.bin");
     }
 
     fclose(arq);
@@ -369,16 +420,26 @@ int dbReserva(Reserva reserva){
 
 int getId_reserva(){
     Reserva reserva;
-    int last_id;
+    int last_id, maior, i=0;
     FILE *arq;
-    arq = fopen("db/dbReserva.dat", "rb");
+    arq = fopen("db/dbReserva.bin", "rb");
 
     if(arq != NULL){
         while(fread(&reserva, sizeof(reserva), 1, arq)){
             last_id = reserva.id;
+            if(i ==0){
+                maior = last_id;
+            }else if(last_id > maior){
+                maior = last_id;
+            }
+            i++;
         }
     }else{
-        printf("Erro ao abrir dbReserva.dat!\n");
+        printf("Erro ao abrir dbReserva.bin!\n");
+    }
+
+    if(i == 0){
+        maior = 0;
     }
 
     fclose(arq);
@@ -406,10 +467,106 @@ int login(int senha, int cpf){ // Primeiro recebe a senha e depois o cpf devido 
     return 0;
 }
 
+void editarSala(){
 
-void desenhar_logo(){
+    int id_sala , flg = 0;
+    printf("Informe o id da sala para edicao: ");
+    scanf("%d", &id_sala);
+
+    TipoSala edicaoSala, tipoSala;
+    FILE *arq, *arq_tmp;
+    arq = fopen("db/dbSala.bin", "r");
+
+    while(fread(&tipoSala, sizeof(tipoSala), 1, arq)){
+        if(id_sala == tipoSala.id){
+            flg = 1;
+        }
+    }
+
+    fclose(arq);
+    arq = fopen("db/dbSala.bin", "r");
+
+    if(flg){
+        arq_tmp = fopen("db/tmpSala.bin", "a");
+        while(fread(&tipoSala, sizeof(tipoSala), 1, arq)){
+            if(!(id_sala == tipoSala.id)){
+                fwrite(&tipoSala, sizeof(tipoSala), 1, arq_tmp);
+            }
+        }
+        fclose(arq);
+        fclose(arq_tmp);
+
+        edicaoSala.id = id_sala;
+        printf("Informe o numero da sala: ");
+        scanf("%d", &edicaoSala.numSala);
+        printf("Informe o bloco da sala: ");
+        fflush(stdin);
+        edicaoSala.bloco = getchar();
+        printf("[1] - Sala Comum\n[2] - Laboratorio\n");
+        scanf("%d", &edicaoSala.caraterSala);
+
+        arq_tmp = fopen("db/tmpSala.bin", "a");
+        if(registro_duplicado_sala(edicaoSala.numSala, edicaoSala.bloco)){
+            fwrite(&edicaoSala, sizeof(edicaoSala), 1, arq_tmp);
+            printf("Sala editada com sucesso!\n");
+            system("pause");
+        }else{
+            printf("Sala ja cadastrada!\n");
+        }
+
+    }else{
+        printf("Id nao encontrado!\n");
+        system("pause");
+    }
+
+    fclose(arq_tmp);
+
+    remove("db/dbSala.bin");
+    rename("db/tmpSala.bin", "db/dbSala.bin");
+    menu();
+}
+
+void excluirSala(){
+    int id_sala, flg = 0;
+    printf("Informe o id da sala: ");
+    scanf("%d", &id_sala);
+
+    TipoSala tipoSala;
+    FILE *arq;
+    FILE *arq_tmp;
+
+    arq = fopen("db/dbSala.bin", "r");
+    arq_tmp=fopen("db/tmp.bin", "w+");
+
+    while(fread(&tipoSala, sizeof(tipoSala), 1, arq)){
+        printf("%d\n",tipoSala.id);
+        if(tipoSala.id == id_sala){
+            printf("Sala excluida com sucesso!\n");
+            flg = 1;
+            system("pause");
+        }else{
+            fwrite(&tipoSala, sizeof(tipoSala), 1, arq_tmp);
+        }
+    }
+
+    if(!flg){
+        printf("Sala nao encontrada!\n");
+        system("pause");
+    }
+
+    fclose(arq);
+    fclose(arq_tmp);
+
+    remove("db/dbSala.bin");
+    rename("db/tmp.bin", "db/dbSala.bin");
+
+    menu();
+}
+
+void editarDocente(){
 
 }
+
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
 (such as char *str ...;), only before a statement (printf(...);). In C89 this was no great difficulty because
