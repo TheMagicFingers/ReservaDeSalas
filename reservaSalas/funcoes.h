@@ -149,4 +149,8 @@ void editarSala();
 
 void excluirSala();
 
+void editarDocente();
+
+void excluirDocente();
+
 void menu2();

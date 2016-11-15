@@ -6,7 +6,7 @@
 /** Arquivo onde serão inseridas as funções */
 
 void menu(){
-    int op, op_cad, op_res, op_ed;
+    int op, op_cad, op_res, op_ed, op_ex;
     system("cls");
     printf("SISTEMA DE CADASTRO DE SALAS\n");
 
@@ -77,7 +77,7 @@ void menu(){
             editarSala();
             break;
         case 2:
-            printf("Falta implementar edicao de docentes!\n");
+            editarDocente();
             break;
         case 3:
             printf("Falta implementar edicao de reservas!\n");
@@ -91,7 +91,30 @@ void menu(){
         }
         break;
     case 5:
-        excluirSala();
+        system("cls");
+        printf("\t\t---Modulo de Exclusao de registros---\n");
+        printf("[1] - Excluir Sala\n");
+        printf("[2] - Excluir Docente\n");
+        printf("[3] - Excluir Reserva\n");
+        printf("[4] - Voltar\n");
+        scanf("%d", &op_ex);
+
+        switch(op_ex){
+        case 1:
+            excluirSala();
+            break;
+        case 2:
+            excluirDocente();
+        case 3:
+            printf("Falta implementar!\n");
+            break;
+        case 4:
+            menu();
+        default:
+            printf("Opcao invalida!\n");
+            system("pause");
+            menu();
+        }
         break;
     case 6:
         relatorio();
@@ -191,8 +214,9 @@ void consultaReser(int op_res){
         Docentes docente;
         arq = fopen("db/dbDocente.bin", "rb");
         printf("Docentes cadastrados\n");
+        printf("ID\tMatricula\tNome\n");
         while(fread(&docente, sizeof docente, 1, arq)){
-            printf("ID: %d Nome: %-10sMatricula: %d\n", docente.id, docente.nome, docente.mat);
+            printf("%d\t%d\t\t%s\n", docente.id, docente.mat, docente.nome);
         }
     }else if(op_res == 3){//caso a op_res seja 3 -> consulta de reservas
         Reserva reserva;
@@ -326,7 +350,6 @@ int registro_duplicado_docente(int matricula){
         printf("Arquivo errado!\n");
     }
 
-    //system("pause");
     fclose(arq);
     return flg;
 }
@@ -484,12 +507,12 @@ void editarSala(){
     }
 
     fclose(arq);
-    arq = fopen("db/dbSala.bin", "r");
 
     if(flg){
+        arq = fopen("db/dbSala.bin", "r");
         arq_tmp = fopen("db/tmpSala.bin", "a");
         while(fread(&tipoSala, sizeof(tipoSala), 1, arq)){
-            if(!(id_sala == tipoSala.id)){
+            if(!(id_sala == tipoSala.id)){//caso o id nao seja o id informado, o registro é salvo no .bin
                 fwrite(&tipoSala, sizeof(tipoSala), 1, arq_tmp);
             }
         }
@@ -513,13 +536,11 @@ void editarSala(){
         }else{
             printf("Sala ja cadastrada!\n");
         }
-
+        fclose(arq_tmp);
     }else{
         printf("Id nao encontrado!\n");
         system("pause");
     }
-
-    fclose(arq_tmp);
 
     remove("db/dbSala.bin");
     rename("db/tmpSala.bin", "db/dbSala.bin");
@@ -536,10 +557,9 @@ void excluirSala(){
     FILE *arq_tmp;
 
     arq = fopen("db/dbSala.bin", "r");
-    arq_tmp=fopen("db/tmp.bin", "w+");
+    arq_tmp=fopen("db/tmpSala.bin", "w+");
 
     while(fread(&tipoSala, sizeof(tipoSala), 1, arq)){
-        printf("%d\n",tipoSala.id);
         if(tipoSala.id == id_sala){
             printf("Sala excluida com sucesso!\n");
             flg = 1;
@@ -558,13 +578,100 @@ void excluirSala(){
     fclose(arq_tmp);
 
     remove("db/dbSala.bin");
-    rename("db/tmp.bin", "db/dbSala.bin");
+    rename("db/tmpSala.bin", "db/dbSala.bin");
 
     menu();
 }
 
 void editarDocente(){
+    Docentes docente;
+    int id_docente, flg = 0;
 
+    FILE *arq, *arq_tmp;
+    arq = fopen("db/dbDocente.bin", "r");
+
+    printf("Informe o id do docente: ");
+    scanf("%d", &id_docente);
+    while(fread(&docente, sizeof(docente), 1, arq)){
+        if(id_docente == docente.id){
+            flg = 1;
+        }
+    }
+    fclose(arq);
+
+    if(flg){
+        arq = fopen("db/dbDocente.bin", "r");
+        arq_tmp = fopen("db/tmpDocente.bin", "a");
+        while(fread(&docente, sizeof(docente), 1,arq)){
+            if(!(id_docente == docente.id)){
+                fwrite(&docente, sizeof(docente), 1,arq_tmp);
+            }
+        }
+        fclose(arq);
+        fclose(arq_tmp);
+
+        Docentes editaDocente;
+        editaDocente.id = id_docente;
+        printf("Informe a matricula: ");
+        scanf("%d", &editaDocente.mat);
+        printf("Informe o nome: ");
+        fflush(stdin);
+        gets(editaDocente.nome);
+
+        arq_tmp = fopen("db/tmpDocente.bin", "a");
+
+        if(registro_duplicado_docente(editaDocente.mat)){
+            fwrite(&editaDocente, sizeof(editaDocente), 1,arq_tmp);
+            printf("Docente editado com sucesso!\n");
+            system("pause");
+        }else{
+            printf("Registro duplicado!\n");
+        }
+        fclose(arq_tmp);
+    }else{
+        printf("Id nao encontrado!\n");
+    }
+
+    remove("db/dbDocente.bin");
+    rename("db/tmpDocente.bin", "db/dbDocente.bin");
+    menu();
+}
+
+void excluirDocente(){
+    int id_docente, flg = 0;
+    printf("Informe o id do docente: ");
+    scanf("%d", &id_docente);
+
+    Docentes docente;
+    FILE *arq;
+    FILE *arq_tmp;
+
+    arq = fopen("db/dbDocente.bin", "r");
+    arq_tmp=fopen("db/tmpDocente.bin", "w+");
+
+    while(fread(&docente, sizeof(docente), 1, arq)){
+        printf("%d\n",docente.id);
+        if(docente.id == id_docente){
+            printf("Docente excluido com sucesso!\n");
+            flg = 1;
+            system("pause");
+        }else{
+            fwrite(&docente, sizeof(docente), 1, arq_tmp);
+        }
+    }
+
+    if(!flg){
+        printf("Docente nao encontrado!\n");
+        system("pause");
+    }
+
+    fclose(arq);
+    fclose(arq_tmp);
+
+    remove("db/dbDocente.bin");
+    rename("db/tmpDocente.bin", "db/dbDocente.bin");
+
+    menu();
 }
 
 /** OBS 1:
