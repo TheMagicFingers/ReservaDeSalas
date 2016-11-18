@@ -686,6 +686,7 @@ void excluirReserva (){
         if (reserva.id == id_reserva) {
             printf("Registro excluido com sucesso!\n");
             flg=1;
+            system("pause");
         }
         else {
             fwrite(&reserva, sizeof(reserva), 1, arq_temp);
