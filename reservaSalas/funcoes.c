@@ -390,34 +390,27 @@ void reserva(){
     system("cls");
     printf("\t\t--- Reserva de Sala ---\n");
     Reserva reserva;
-    printf("Data e hora da reserva\n");
 
-    printf("Informe a data (dd/mm/aaaa)\n");
-    fflush(stdin);
-    gets(reserva.data);
+    printf("Informe o dia: ");
+    scanf("%d", &reserva.data.dia);
 
-    printf("Hora de entrada (hh:mm)\n");
-    fflush(stdin);
-    gets(reserva.horaEntrada);
+    printf("Informe o mes: ");
+    scanf("%d", &reserva.data.mes);
+    
+    printf("Informe o ano: ");
+    scanf("%d", &reserva.data.ano);
 
-    printf("Hora de saida (hh:mm)\n");
-    fflush(stdin);
-    gets(reserva.horaSaida);
-
-    printf("Sala e responsavel\n");
+    printf("\nSala e responsavel\n");
     printf("Informe o id da sala: ");//funcao para encontrar o nome da sala
     scanf("%d", &reserva.id_TipoSala);
 
     printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
     scanf("%d", &reserva.id_Docente);
 
-    printf("Reserva de projetor\n[1] - Sim\n[2] - Nao\n");
-    scanf("%d", &reserva.reserProjetor);
-    //reserva.id = getId_reserva();
-    reserva.id = 1;
+    reserva.id = getId_reserva();
 
     if(dbReserva(reserva)){
-        printf("Reserva Cadastrada com sucesso!\n");
+        printf("Reserva Cadastrada com sucesso!\n"); // Retorna 1 caso cadastro com success
     }
 
     system("pause");
