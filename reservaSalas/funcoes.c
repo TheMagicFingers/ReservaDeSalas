@@ -223,7 +223,7 @@ void consultaReser(int op_res){
         arq = fopen("db/dbReserva.bin", "rb");
         printf("Lista de reservas\n");
         while(fread(&reserva, sizeof(reserva), 1, arq)){
-            printf("Reserva %d\n", reserva.id);
+            printf("ID da Reserva %d\n", reserva.id);
             printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
             printf("Professor responsavel: %d\n", reserva.id_Docente);
             printf("Sala: %d\n", reserva.id_TipoSala);
