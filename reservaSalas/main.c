@@ -4,7 +4,8 @@
 
 int main()
 {
-    //login(entrada_num("Senha"), entrada_num("CPF")); // Primeiro recebe a senha e depois o cpf devido à ordem de precedêcia do C.
-    menu();
+    char *user = entrada_char("Usuario: ");
+    char *senha = entrada_char("Senha: ");
+    login(user,senha);
     return 0;
 }
