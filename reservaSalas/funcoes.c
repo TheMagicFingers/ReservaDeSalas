@@ -6,120 +6,112 @@
 /** Arquivo onde serão inseridas as funções */
 
 void menu(){
-    int op, op_cad, op_res, op_ed, op_ex;
+    void menu(){
+    int op, op_salas, op_doce, op_reser, op_ex;
     system("cls");
-    printf("SISTEMA DE CADASTRO DE SALAS\n");
+    printf("SISTEMA DE CADASTRO E RESERVA DE SALAS\n");
 
-    printf("[1] - Realizar um novo cadastro\n");
-    printf("[2] - Realizar uma consulta ao sistema\n");
-    printf("[3] - Reservar uma sala\n");
-    printf("[4] - Editar dados\n");
-    printf("[5] - Excluir dados\n");
-    printf("[6] - Elaborar um relatorio\n");
-    printf("[7] - Sair\n");
+    printf("\n[1] - Datas ja reservadas\n");
+    printf("[2] - Salas\n");
+    printf("[3] - Docentes\n");
+    printf("[4] - Reservas\n");
+    printf("[5] - Relatorios\n");
+    printf("[6] - Sair\n");
     scanf("%d", &op);
 
     switch(op){
     case 1:
         system("cls");
-        printf("Informe o tipo de Cadastro\n");
-        printf("[1] - Sala\n");
-        printf("[2] - Docente\n");
-        printf("[3] - Voltar\n");
-        scanf("%d", &op_cad);
-
-        switch(op_cad){
-        case 1:
-        case 2:
-            cadastrar(op_cad);
-            break;
-        case 3:
-            menu();
-            break;
-        }
+        calendar();
         break;
+    
     case 2:
         system("cls");
-        printf("Consulta de registros\n");
-        printf("[1] - Salas Cadastradas\n");
-        printf("[2] - Docentes Cadastrados\n");
-        printf("[3] - Reservas de Salas\n");
-        printf("[4] - Voltar\n");
-        scanf("%d", &op_res);
-        switch(op_res){
-            case 1:
-            case 2:
-            case 3:
-                consultaReser(op_res);
-                break;
-            case 4:
-                menu();
-                break;
-            default:
-                printf("Opcao invalida!\n");
-                system("pause");
-        }
-        break;
-    case 3:
-        reserva();
-        break;
-    case 4:
-        system("cls");
-        printf("\t\t---Tela de Edicao---\n");
-        printf("[1] - Editar Sala\n");
-        printf("[2] - Editar Docente\n");
-        printf("[3] - Editar Reserva\n");
-        printf("[4] - Voltar\n");
+        printf("SALAS\n");
+        printf("\n[1] - Cadastrar\n");
+        printf("[2] - Editar\n");
+        printf("[3] - Excluir\n");
+        printf("[4] - Lista de cadastros\n");
+        printf("[5] - Voltar\n");
+        scanf("%d", &op_salas);
 
-        scanf("%d", &op_ed);
-        switch(op_ed){
+        switch(op_salas){
         case 1:
+            cadastrar(op);
+        case 2:
             editarSala();
             break;
+        case 3:
+            excluirSala();
+            break;
+        case 4:
+            consultaReser(op);
+        case 5:
+            menu();
+        }
+        break;
+
+    case 3:
+        system("cls");
+        printf("DOCENTES\n");
+        printf("\n[1] - Cadastrar\n");
+        printf("[2] - Editar\n");
+        printf("[3] - Excluir\n");
+        printf("[4] - Lista\n");
+        printf("[5] - Voltar\n");
+        scanf("%d", &op_doce);
+
+        switch(op_doce){
+        case 1:
+            cadastrar(op);
         case 2:
             editarDocente();
             break;
         case 3:
-            editarReserva();
+            excluirDocente();
             break;
         case 4:
+            consultaReser(op);
+        case 5:
             menu();
-            break;
-        default:
-            printf("Opcao invalida!\n");
-            system("pause");
         }
         break;
+
+    case 4:
+        system("cls");
+        printf("RESERVAS\n");
+        printf("\n[1] - Cadastrar\n");
+        printf("[2] - Editar\n");
+        printf("[3] - Excluir\n");
+        printf("[4] - Lista de reservas\n");
+        printf("[5] - Dias reservados\n");
+        printf("[6] - Voltar\n");
+        scanf("%d", &op_reser);
+
+        switch(op_reser){
+        case 1:
+            reserva();
+        case 2:
+            printf("Falta implementar a funcao para editar!\n");
+            system("pause && cls");
+            menu();
+            break;
+        case 3:
+            excluirReserva();
+            break;
+        case 4:
+            consultaReser(op);
+        case 5:
+            menu();
+        }
+        break;
+
     case 5:
         system("cls");
-        printf("\t\t---Modulo de Exclusao de registros---\n");
-        printf("[1] - Excluir Sala\n");
-        printf("[2] - Excluir Docente\n");
-        printf("[3] - Excluir Reserva\n");
-        printf("[4] - Voltar\n");
-        scanf("%d", &op_ex);
-
-        switch(op_ex){
-        case 1:
-            excluirSala();
-            break;
-        case 2:
-            excluirDocente();
-        case 3:
-            printf("Falta implementar!\n");
-            break;
-        case 4:
-            menu();
-        default:
-            printf("Opcao invalida!\n");
-            system("pause");
-            menu();
-        }
-        break;
-    case 6:
         relatorio();
         break;
-    case 7:
+
+    case 6:
         exit(0);
         break;
     default:
