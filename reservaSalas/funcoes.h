@@ -148,7 +148,7 @@ void excluirDocente();
 
 void menu2();
 
-/*Recebe um id de reserva verifica se ele 
+/*Recebe um id de reserva, verifica se ele 
   existe e o exluir
 */
 void excluirReserva ();
