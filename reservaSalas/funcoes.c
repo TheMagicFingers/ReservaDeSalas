@@ -669,6 +669,38 @@ void excluirDocente(){
     menu();
 }
 
+void excluirReserva (){
+    int id_reserva, flg=0;
+
+    printf("Informe o id da reserva:");
+    scanf("%d", &id_reserva);
+
+    Reserva reserva;
+    FILE *arq;
+    FILE *arq_temp;
+
+    arq = fopen("db/dbReserva.bin", "r");
+    arq_temp = fopen ("db/tempReserva.bin", "w+");
+
+    while (fread(&reserva, sizeof(reserva), 1, arq)  == 1) {
+        if (reserva.id == id_reserva) {
+            printf("Registro excluido com sucesso!\n");
+            flg=1;
+        }
+        else {
+            fwrite(&reserva, sizeof(reserva), 1, arq_temp);
+        }
+    }
+    if (flg==0) {
+        printf("Registro não localizado!\n");
+    }
+    fclose(arq);
+    fclose(arq_temp);
+
+    remove("db/dbReserva.bin");
+    rename("db/tempReserva.bin", "db/dbReserva.bin");
+}
+
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
 (such as char *str ...;), only before a statement (printf(...);). In C89 this was no great difficulty because
