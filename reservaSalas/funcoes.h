@@ -51,7 +51,7 @@ typedef struct
    corretos o usuário é redirecionado para o menu, caso contrário
    ele é redirecionado para a tela inicial/login.
 */
-int login(int cpf, int senha);
+void login(char *user, char* senha);
 
 /* Responsável pela função: Alan Pires
    A função "menu" imprime as opções do sistema
@@ -109,7 +109,7 @@ void reserva();
     e pede ao usuário que digite algo referente
     ao texto que foi recebido pela função
 */
-int entrada_num(char texto[50]);
+char* entrada_char(char *texto);
 
 /*
     Responsavel pela função: Gustavo Soares
