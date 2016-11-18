@@ -35,7 +35,6 @@ typedef struct
     int id;
     int id_TipoSala;
     int id_Docente;
-    int reserProjetor;
     Data data;
 }Reserva;
 
