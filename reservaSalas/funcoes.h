@@ -25,26 +25,19 @@ typedef struct
 
 typedef struct
 {
-    /** Eh necessario fazer verificacoes com a data
-        e como ela estava em char era impossivel.
-        Por isso alterei para inteiro.
-    **/
     int id;
     int id_TipoSala;
     int id_Docente;
-    char data[15];
-    //int diaData;
-    //int mesData;
-    //int anoData;
-    char horaEntrada[10];
-    //int hEntrada;
-    //int mEntrada;
-    char horaSaida[10];
-    int hSaida;
-    int mSaida;
-
     int reserProjetor;
+    Data data;
 }Reserva;
+
+typedef struct
+{
+    int dia;
+    int mes;
+    int ano;
+}Data;
 
 /* Responsável pela função: Lucas Vieira
    Compara o CPF e senha do técnico, caso os dados estejam
