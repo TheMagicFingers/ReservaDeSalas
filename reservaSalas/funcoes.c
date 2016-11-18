@@ -469,22 +469,27 @@ int getId_reserva(){
     return last_id+1;
 }
 
-int entrada_num(char texto[50]){
-    int numEntrada;
-    printf("\nDigite %s: ", texto);
-    scanf("%d", &numEntrada);
-    return numEntrada;
+char* entrada_char(char *texto)
+{
+    char *entrada = (char*) malloc(sizeof(char) * 50);
+    printf("\nDigite %s", texto);
+    gets(entrada);
+    return entrada;
 }
 
-int login(int senha, int cpf){ // Primeiro recebe a senha e depois o cpf devido à ordem de precedêcia do C.
-    int TrueCpf = 123456;
-    int TrueSenha = 1234;
-    if((cpf == TrueCpf) && senha == TrueSenha){
+int login(char* user, char* senha){
+    char *TrueUser = "Luquinhas";
+    char * TrueSenha = "22k";
+
+    if(strcmp(user,TrueUser) == 0 && strcmp(senha,TrueSenha) == 0){
         menu();
     }else{
         printf("O cpf ou a senha estao incorretos. Tente novamente.\n");
         system("pause && cls");
-        login(entrada_num("Senha"), entrada_num("CPF")); //chama funcao login novamente até que o usuário acerte o login.
+        char *user = entrada_char("Usuario: ");
+        char *senha = entrada_char("Senha: ");
+        login(user,senha);
+        //login(entrada_char("CPF"), entrada_char("Senha"));
     }
 
     return 0;
