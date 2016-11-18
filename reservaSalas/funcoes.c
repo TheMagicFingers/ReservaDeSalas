@@ -80,7 +80,7 @@ void menu(){
             editarDocente();
             break;
         case 3:
-            printf("Falta implementar edicao de reservas!\n");
+            editarReserva();
             break;
         case 4:
             menu();
@@ -224,14 +224,9 @@ void consultaReser(int op_res){
         printf("Lista de reservas\n");
         while(fread(&reserva, sizeof(reserva), 1, arq)){
             printf("Reserva %d\n", reserva.id);
-            printf("Data: %s\n", reserva.data);
-            printf("De %s as %s\n", reserva.horaEntrada, reserva.horaSaida);
+            printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
             printf("Professor responsavel: %d\n", reserva.id_Docente);
             printf("Sala: %d\n", reserva.id_TipoSala);
-            if(reserva.reserProjetor == 1){
-                printf("O projetor tambem foi reservado!\n");
-            }
-            printf("\n");
         }
     }
 
@@ -396,7 +391,7 @@ void reserva(){
 
     printf("Informe o mes: ");
     scanf("%d", &reserva.data.mes);
-    
+
     printf("Informe o ano: ");
     scanf("%d", &reserva.data.ano);
 
@@ -470,9 +465,9 @@ char* entrada_char(char *texto)
     return entrada;
 }
 
-void login(char* user, char* senha){
+void login(char *user, char *senha){
     char *TrueUser = "Luquinhas";
-    char * TrueSenha = "22k";
+    char *TrueSenha = "22k";
 
     if(strcmp(user,TrueUser) == 0 && strcmp(senha,TrueSenha) == 0){
         menu();
@@ -702,6 +697,74 @@ void excluirReserva (){
     rename("db/tempReserva.bin", "db/dbReserva.bin");
 }
 
+void editarReserva(){
+    int id_reserva, flg = 0;
+    printf("Digite o id da reserva para edicao: ");
+    scanf("%d", &id_reserva);
+
+    Reserva reserva, editaReserva;
+    FILE *arq, *arq_temp;
+    arq = fopen("db/dbReserva.bin", "r");
+
+    while(fread(&reserva, sizeof(reserva), 1, arq)){
+        if(id_reserva == reserva.id){
+            flg = 1;
+        }
+    }
+    fclose(arq);
+
+    if(flg){
+        arq = fopen("db/dbReserva.bin", "r");
+        arq_temp = fopen("db/tmpReserva.bin", "a");
+        while(fread(&reserva, sizeof(reserva), 1, arq)){
+            if(id_reserva != reserva.id){
+                printf("Salvo %d\n", reserva.id);
+                fwrite(&reserva, sizeof(reserva), 1, arq_temp);
+            }
+        }
+        fclose(arq);
+        fclose(arq_temp);
+
+        editaReserva.id = id_reserva;
+
+        printf("\t\t--- Editar Reserva de Sala ---\n");
+
+        printf("Informe o dia: ");
+        scanf("%d", &editaReserva.data.dia);
+
+        printf("Informe o mes: ");
+        scanf("%d", &editaReserva.data.mes);
+
+        printf("Informe o ano: ");
+        scanf("%d", &editaReserva.data.ano);
+
+        printf("\nSala e responsavel\n");
+        printf("Informe o id da sala: ");  //funcao para encontrar o nome da sala
+        scanf("%d", &editaReserva.id_TipoSala);
+
+        printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
+        scanf("%d", &editaReserva.id_Docente);
+
+        arq_temp = fopen("db/tmpReserva.bin", "a");
+        if(fwrite(&editaReserva, sizeof(editaReserva), 1, arq_temp)){
+            printf("Reserva editada!\n");
+        }else{
+
+            printf("nao foi possible");
+        }
+
+        fclose(arq_temp);
+
+        remove("db/dbReserva.bin");
+        rename("db/tmpReserva.bin", "db/dbReserva.bin");
+
+        system("pause");
+        menu();
+
+    }else{
+        printf("O id nao foi encontrado\n");
+    }
+}
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
 (such as char *str ...;), only before a statement (printf(...);). In C89 this was no great difficulty because
