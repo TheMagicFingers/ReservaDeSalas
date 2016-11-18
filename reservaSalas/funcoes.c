@@ -477,7 +477,7 @@ char* entrada_char(char *texto)
     return entrada;
 }
 
-int login(char* user, char* senha){
+void login(char* user, char* senha){
     char *TrueUser = "Luquinhas";
     char * TrueSenha = "22k";
 
@@ -489,10 +489,7 @@ int login(char* user, char* senha){
         char *user = entrada_char("Usuario: ");
         char *senha = entrada_char("Senha: ");
         login(user,senha);
-        //login(entrada_char("CPF"), entrada_char("Senha"));
     }
-
-    return 0;
 }
 
 void editarSala(){
