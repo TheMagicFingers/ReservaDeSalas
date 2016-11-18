@@ -25,6 +25,13 @@ typedef struct
 
 typedef struct
 {
+    int dia;
+    int mes;
+    int ano;
+}Data;
+
+typedef struct
+{
     int id;
     int id_TipoSala;
     int id_Docente;
@@ -32,19 +39,12 @@ typedef struct
     Data data;
 }Reserva;
 
-typedef struct
-{
-    int dia;
-    int mes;
-    int ano;
-}Data;
-
 /* Responsável pela função: Lucas Vieira
    Compara o CPF e senha do técnico, caso os dados estejam
    corretos o usuário é redirecionado para o menu, caso contrário
    ele é redirecionado para a tela inicial/login.
 */
-void login(char *user, char* senha);
+void login(char *user, char *senha);
 
 /* Responsável pela função: Alan Pires
    A função "menu" imprime as opções do sistema
@@ -145,6 +145,8 @@ void excluirSala();
 void editarDocente();
 
 void excluirDocente();
+
+void editarReserva();
 
 void menu2();
 
