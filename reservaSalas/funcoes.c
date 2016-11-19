@@ -470,7 +470,11 @@ void login(char *user, char *senha){
     if(strcmp(user,TrueUser) == 0 && strcmp(senha,TrueSenha) == 0){
         menu();
     }else{
-        printf("O cpf ou a senha estao incorretos. Tente novamente.\n");
+        backcolor(4);
+        gotoxy(5,15);
+        printf(" O cpf ou a senha estao incorretos. Tente novamente.\n");
+        backcolor(0);
+        gotoxy(8,16);
         system("pause && cls");
         logo();
     }
