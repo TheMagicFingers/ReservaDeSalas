@@ -2,41 +2,45 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="funcoes.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3475" topLine="110" />
+		</Cursor>
+	</File>
 	<File name="BibConio.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="497" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="funcoes.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="94" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="funcoes.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3557" topLine="110" />
-		</Cursor>
-	</File>
-	<File name="funcoes.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5401" topLine="147" />
+			<Cursor1 position="8955" topLine="190" />
 		</Cursor>
 		<Folding>
-			<Collapse line="109" />
-			<Collapse line="230" />
-			<Collapse line="283" />
-			<Collapse line="307" />
-			<Collapse line="327" />
-			<Collapse line="347" />
-			<Collapse line="367" />
-			<Collapse line="388" />
-			<Collapse line="406" />
-			<Collapse line="410" />
-			<Collapse line="448" />
-			<Collapse line="465" />
-			<Collapse line="483" />
-			<Collapse line="490" />
-			<Collapse line="504" />
+			<Collapse line="183" />
+			<Collapse line="235" />
+			<Collapse line="257" />
+			<Collapse line="277" />
+			<Collapse line="329" />
+			<Collapse line="349" />
+			<Collapse line="377" />
+			<Collapse line="381" />
+			<Collapse line="412" />
+			<Collapse line="429" />
+			<Collapse line="457" />
+			<Collapse line="464" />
+			<Collapse line="479" />
+			<Collapse line="536" />
+			<Collapse line="572" />
+			<Collapse line="626" />
+			<Collapse line="663" />
+			<Collapse line="696" />
+			<Collapse line="765" />
 		</Folding>
+	</File>
+	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="261" topLine="0" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

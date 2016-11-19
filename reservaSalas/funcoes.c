@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "funcoes.h"
+#include "BibConio.h"
 
 /** Arquivo onde serão inseridas as funções */
 
 void menu(){
-    void menu(){
-    int op, op_salas, op_doce, op_reser, op_ex;
+    int op, op_salas, op_doce, op_reser;
     system("cls");
     printf("SISTEMA DE CADASTRO E RESERVA DE SALAS\n");
 
@@ -24,7 +25,7 @@ void menu(){
         system("cls");
         calendar();
         break;
-    
+
     case 2:
         system("cls");
         printf("SALAS\n");
@@ -46,8 +47,10 @@ void menu(){
             break;
         case 4:
             consultaReser(op);
+            break;
         case 5:
             menu();
+            break;
         }
         break;
 
@@ -64,6 +67,7 @@ void menu(){
         switch(op_doce){
         case 1:
             cadastrar(op);
+            break;
         case 2:
             editarDocente();
             break;
@@ -72,8 +76,10 @@ void menu(){
             break;
         case 4:
             consultaReser(op);
+            break;
         case 5:
             menu();
+            break;
         }
         break;
 
@@ -135,7 +141,7 @@ void cadastrar(int op){
             break;
         case 1:
             switch(op){
-                case 1: ;
+                case 2: ;
                     TipoSala tipoSala;
                     printf("Informe o numero da sala: ");
                     scanf("%d", &tipoSala.numSala);
@@ -151,7 +157,7 @@ void cadastrar(int op){
                     }
                     system("pause");
                     menu();
-                case 2: ; // NÃO APAGUE O ; Ler observação 1 no final do arquivo
+                case 3: ; // NÃO APAGUE O ; Ler observação 1 no final do arquivo
                     Docentes docente;
                     docente.id = getId_docente();
                     printf("Digite a matricula: ");
@@ -185,7 +191,7 @@ void consultaReser(int op_res){
 //e com isso faço o tratamento para listar os dados corretamente.
     FILE *arq;
 
-    if(op_res == 1){//caso a op_res seja 1 -> consulta de salas
+    if(op_res == 2){//caso a op_res seja 1 -> consulta de salas
         arq = fopen("db/dbSala.bin", "rb");
         system("cls");
         TipoSala tipoSala;
@@ -195,14 +201,14 @@ void consultaReser(int op_res){
             printf("%d\t",tipoSala.id);
             printf("%c%-6d\t",tipoSala.bloco,tipoSala.numSala);
             if(tipoSala.caraterSala == 1){
-                printf("Laboratorio\n");
-            }else if(tipoSala.caraterSala){
                 printf("Comum\n");
+            }else if(tipoSala.caraterSala == 2){
+                printf("Laboratorio\n");
             }else{
                 printf("Desconhecido\n");
             }
         }
-    }else if(op_res == 2){//caso a op_res seja 2 -> consulta de docentes
+    }else if(op_res == 3){//caso a op_res seja 2 -> consulta de docentes
         Docentes docente;
         arq = fopen("db/dbDocente.bin", "rb");
         printf("Docentes cadastrados\n");
@@ -210,7 +216,7 @@ void consultaReser(int op_res){
         while(fread(&docente, sizeof docente, 1, arq)){
             printf("%d\t%d\t\t%s\n", docente.id, docente.mat, docente.nome);
         }
-    }else if(op_res == 3){//caso a op_res seja 3 -> consulta de reservas
+    }else if(op_res == 4){//caso a op_res seja 3 -> consulta de reservas
         Reserva reserva;
         arq = fopen("db/dbReserva.bin", "rb");
         printf("Lista de reservas\n");
@@ -233,8 +239,6 @@ int dbSala(TipoSala tipoSala){
     int flg = 1;
     FILE *arq;//ponteiro para o tipo arquivo
     arq = fopen("db/dbSala.bin", "a");//abro o arquivo no modo a -> append
-
-    //falta implementar
 
     if(arq != NULL){//caso a variavel n esteja nula posso operar sobre ela.
         if(registro_duplicado_sala(tipoSala.numSala, tipoSala.bloco)){
@@ -306,6 +310,9 @@ int dbDocente(Docentes docente){
     FILE *arq;
     arq = fopen("db/dbDocente.bin", "a");
 
+    printf("%d - %d - %s\n", docente.id, docente.mat, docente.nome);
+
+    system("pause");
     if(arq != NULL){
             if(registro_duplicado_docente(docente.mat)){
                 fwrite(&docente, sizeof(docente), 1, arq);
@@ -345,7 +352,7 @@ int getId_docente(){
     Docentes docente;
     int last_id, maior,i=0;
     FILE *arq;
-    arq = fopen("db/dbDocente.bin", "rb");
+    arq = fopen("db/dbDocente.bin", "r");
 
     if(arq != NULL){
         while(fread(&docente, sizeof(docente), 1, arq)){
@@ -449,10 +456,9 @@ int getId_reserva(){
     return last_id+1;
 }
 
-char* entrada_char(char *texto)
-{
+char* entrada_char(char *texto){
     char *entrada = (char*) malloc(sizeof(char) * 50);
-    printf("\nDigite %s", texto);
+    printf("%s", texto);
     gets(entrada);
     return entrada;
 }
@@ -466,9 +472,7 @@ void login(char *user, char *senha){
     }else{
         printf("O cpf ou a senha estao incorretos. Tente novamente.\n");
         system("pause && cls");
-        char *user = entrada_char("Usuario: ");
-        char *senha = entrada_char("Senha: ");
-        login(user,senha);
+        logo();
     }
 }
 
@@ -777,6 +781,67 @@ void calendar(){
     if(flg == 0){
         printf("Nao ha reservas!\n");
     }
+    system("pause");
+    menu();
+}
+
+void logo(){
+    backcolor(2);
+    char letra[20], l = 219; //caracter da tabela ascii
+    int logo[8][19];
+    //8x19
+    int i,j,k=20;
+
+    strcpy(&logo[0],"0000000000000000000");
+    strcpy(&logo[1],"0888800888880888880");
+    strcpy(&logo[2],"0088000800000800080");
+    strcpy(&logo[3],"0088000888800800880");
+    strcpy(&logo[4],"0088000888800800880");
+    strcpy(&logo[5],"0088000800000800080");
+    strcpy(&logo[6],"0888800800000888880");
+    strcpy(&logo[7],"0000000000000000000");
+
+    printf("\n\n");
+    for(i=0;i<8;i++){
+        strcpy(&letra,logo[i]);
+        gotoxy(k,i+3);
+        for(j=0;j<19;j++){
+            //printf("%c-",letra[j]);
+            switch(letra[j]){
+            case '0':
+                backcolor(2);
+                textcolor(2);
+                printf("%c",l);
+                break;
+            case '8':
+                backcolor(7);
+                textcolor(7);
+                printf("%c",l);
+                break;
+            }
+        }
+        backcolor(2);
+        printf("\n");
+    }
+
+    gotoxy(k-10,i+3);
+    textcolor(7);
+    printf(" SISTEMA DE CADASTRO E RESERVA DE SALAS \n");
+    backcolor(6);
+    textcolor(7);
+    gotoxy(k-5,i+4);
+    printf("                               \n");
+    gotoxy(15,12);
+    char *user = entrada_char("Usuario: ");
+    gotoxy(k-5,i+5);
+    printf("                               \n");
+    gotoxy(15,13);
+    char *senha = entrada_char("Senha: ");
+
+    backcolor(0);
+    textcolor(7);
+
+    login(user, senha);
 }
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
