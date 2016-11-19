@@ -157,3 +157,6 @@ void excluirReserva ();
 void calendar();
 
 void logo();
+
+char* select_docente(int id_docente);
+

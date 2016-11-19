@@ -201,9 +201,9 @@ void consultaReser(int op_res){
             printf("%d\t",tipoSala.id);
             printf("%c%-6d\t",tipoSala.bloco,tipoSala.numSala);
             if(tipoSala.caraterSala == 1){
-                printf("Comum\n");
-            }else if(tipoSala.caraterSala == 2){
                 printf("Laboratorio\n");
+            }else if(tipoSala.caraterSala == 2){
+                printf("Comum\n");
             }else{
                 printf("Desconhecido\n");
             }
@@ -224,7 +224,7 @@ void consultaReser(int op_res){
             printf("ID da Reserva %d\n", reserva.id);
             printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
             printf("Professor responsavel: %d\n", reserva.id_Docente);
-            printf("Sala: %d\n", reserva.id_TipoSala);
+            printf("Sala: %d\n\n", reserva.id_TipoSala);
         }
     }
 
@@ -778,8 +778,9 @@ void calendar(){
     while(fread(&reserva, sizeof(reserva), 1, arq)){
         if(reserva.data.ano >= tm.tm_year+1900 && reserva.data.mes >= tm.tm_mon+1 && reserva.data.dia >= tm.tm_mday){
                 flg = 1;
-                printf("id: %d \n id Sala: %d\n id Docente: %d\n", reserva.id, reserva.id_TipoSala, reserva.id_Docente);
+                printf("id: %d \nSala: %d\nDocente: %s\n", reserva.id, reserva.id_TipoSala, select_docente(reserva.id_Docente));
                 printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
+                printf("\n");
         }
     }
     if(flg == 0){
@@ -788,6 +789,22 @@ void calendar(){
     system("pause");
     menu();
 }
+
+char* select_docente(int id_docente){
+    Docentes docente;
+    FILE *arq;
+    arq = fopen("db/dbDocente.bin", "r");
+
+    while(fread(&docente, sizeof(docente), 1, arq)){
+        if(docente.id == id_docente){
+            break;
+        }
+    }
+
+    fclose(arq);
+    return docente.nome;
+}
+
 
 void logo(){
     backcolor(2);
