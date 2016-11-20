@@ -10,9 +10,9 @@
 void menu(){
     int op, op_salas, op_doce, op_reser;
     system("cls");
-    printf("SISTEMA DE CADASTRO E RESERVA DE SALAS\n");
+    molde("SISTEMA DE CADASTRO E RESERVA DE SALAS");
 
-    printf("\n[1] - Datas ja reservadas\n");
+    printf("[1] - Datas ja reservadas\n");
     printf("[2] - Salas\n");
     printf("[3] - Docentes\n");
     printf("[4] - Reservas\n");
@@ -28,8 +28,8 @@ void menu(){
 
     case 2:
         system("cls");
-        printf("SALAS\n");
-        printf("\n[1] - Cadastrar\n");
+        molde("MODULO DE SALAS");
+        printf("[1] - Cadastrar\n");
         printf("[2] - Editar\n");
         printf("[3] - Excluir\n");
         printf("[4] - Lista de cadastros\n");
@@ -56,8 +56,8 @@ void menu(){
 
     case 3:
         system("cls");
-        printf("DOCENTES\n");
-        printf("\n[1] - Cadastrar\n");
+        molde("MODULO DE DOCENTES");
+        printf("[1] - Cadastrar\n");
         printf("[2] - Editar\n");
         printf("[3] - Excluir\n");
         printf("[4] - Lista\n");
@@ -85,8 +85,8 @@ void menu(){
 
     case 4:
         system("cls");
-        printf("RESERVAS\n");
-        printf("\n[1] - Cadastrar\n");
+        molde("MODULO DE RESERVAS");
+        printf("[1] - Cadastrar\n");
         printf("[2] - Editar\n");
         printf("[3] - Excluir\n");
         printf("[4] - Lista de reservas\n");
@@ -863,6 +863,31 @@ void logo(){
     textcolor(7);
 
     login(user, senha);
+}
+
+void molde(char *str){
+    int i, k = strlen(str) + 2;
+    for(i=0;i<k;i++){
+        if(i==0){
+            printf("%c", 201);
+        }else if(i==(k-1)){
+            printf("%c",187);
+        }else{
+            printf("%c", 205);
+        }
+    }
+    printf("\n%c%s%c\n", 186,str,186);
+
+    for(i=0;i<k;i++){
+        if(i==0){
+            printf("%c", 200);
+        }else if(i==(k-1)){
+            printf("%c",188);
+        }else{
+            printf("%c", 205);
+        }
+    }
+    printf("\n");
 }
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
