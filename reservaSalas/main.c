@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include "funcoes.h"
 #include "BibConio.h"
+#include "funcoes.h" /** inclui o arquivo funcoes.h*/
 
 int main()
 {
