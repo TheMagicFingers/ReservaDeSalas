@@ -25,7 +25,6 @@ void menu(){
         system("cls");
         calendar();
         break;
-
     case 2:
         system("cls");
         printf("SALAS\n");
@@ -682,6 +681,7 @@ void excluirReserva (){
             printf("Registro excluido com sucesso!\n");
             flg=1;
             system("pause");
+            menu();
         }
         else {
             fwrite(&reserva, sizeof(reserva), 1, arq_temp);
@@ -689,6 +689,8 @@ void excluirReserva (){
     }
     if (flg==0) {
         printf("Registro não localizado!\n");
+        system("pause");
+        menu();
     }
     fclose(arq);
     fclose(arq_temp);
@@ -804,7 +806,6 @@ char* select_docente(int id_docente){
     fclose(arq);
     return docente.nome;
 }
-
 
 void logo(){
     backcolor(2);
