@@ -60,7 +60,7 @@ void menu(){
         printf("[1] - Cadastrar\n");
         printf("[2] - Editar\n");
         printf("[3] - Excluir\n");
-        printf("[4] - Lista\n");
+        printf("[4] - Lista de cadastros\n");
         printf("[5] - Voltar\n");
         scanf("%d", &op_doce);
 
