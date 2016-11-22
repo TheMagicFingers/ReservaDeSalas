@@ -1,9 +1,14 @@
 SALAS CADASTRADAS
 ID	NUM/SALA	TIPO
 
-1	B2     	Comum
-2	A2     	Laboratorio
-3	A8     	Comum
+1	A12    	Comum
+2	A1     	Comum
+5	Q88    	Comum
+6	A11    	Comum
+4	G88    	Laboratorio
+7	A5     	Comum
+8	B8     	Comum
+9	C4     	Laboratorio
 DOCENTES CADASTRADOS
 ID	Matricula	Nome
 1	12345		Dhiego
@@ -15,8 +20,3 @@ ID	Data da reserva	Sala	Professor
 4214961	20/11/2016	1	Dhiego	
 4214963	18/11/2016	2	Fontes	
 4214964	22/11/2016	5	Fabiano	
-4214965	11/11/2011	1	Dhiego	
-4214966	22/11/2016	1	Dhiego	
-4214967	25/12/2022	1	Dhiego	
-4214968	11/12/2001	1	Dhiego	
-4214969	1/12/2016	1	Dhiego	
