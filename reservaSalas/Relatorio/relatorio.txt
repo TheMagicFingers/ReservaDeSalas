@@ -1,1 +1,22 @@
+SALAS CADASTRADAS
+ID	NUM/SALA	TIPO
 
+1	B2     	Comum
+2	A2     	Laboratorio
+3	A8     	Comum
+DOCENTES CADASTRADOS
+ID	Matricula	Nome
+1	12345		Dhiego
+2	54321		Fontes
+3	15243		Fabiano
+4	987621		Frederico
+RESERVAS REALIZADAS
+ID	Data da reserva	Sala	Professor
+4214961	20/11/2016	1	Dhiego	
+4214963	18/11/2016	2	Fontes	
+4214964	22/11/2016	5	Fabiano	
+4214965	11/11/2011	1	Dhiego	
+4214966	22/11/2016	1	Dhiego	
+4214967	25/12/2022	1	Dhiego	
+4214968	11/12/2001	1	Dhiego	
+4214969	1/12/2016	1	Dhiego	
