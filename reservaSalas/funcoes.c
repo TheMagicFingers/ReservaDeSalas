@@ -880,13 +880,37 @@ void calendar(){
     struct tm tm = *localtime(&t);
 
     while(fread(&reserva, sizeof(reserva), 1, arq)){
-        if(reserva.data.ano >= tm.tm_year+1900 && reserva.data.mes >= tm.tm_mon+1 && reserva.data.dia >= tm.tm_mday){
+        //if(reserva.data.ano > tm.tm_year+1900) flg = 1;
+        if(reserva.data.ano < tm.tm_year+1900){
+            flg = 0;
+        }else if(reserva.data.ano == tm.tm_year+1900 && reserva.data.mes < tm.tm_mon+1){
+            flg = 0;
+        }else if(reserva.data.ano == tm.tm_year+1900 && reserva.data.mes == tm.tm_mon+1 && reserva.data.dia < tm.tm_mday){
+            flg = 0;
+        }else{
+            flg = 1;
+            //printf("id: %d \nSala: %d\nDocente: %s\n", reserva.id, reserva.id_TipoSala, select_docente(reserva.id_Docente));
+            //printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
+            //printf("\n");
+        }
+        if(flg == 1){
+            printf("id: %d \nSala: %d\nDocente: %s\n", reserva.id, reserva.id_TipoSala, select_docente(reserva.id_Docente));
+            printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
+            printf("\n");
+        }
+        /*if(reserva.data.ano >= tm.tm_year+1900 && reserva.data.mes >= tm.tm_mon+1 && reserva.data.dia >= tm.tm_mday){
                 flg = 1;
                 printf("id: %d \nSala: %d\nDocente: %s\n", reserva.id, reserva.id_TipoSala, select_docente(reserva.id_Docente));
                 printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
                 printf("\n");
-        }
+        }else if(reserva.data.ano >= tm.tm_year+1900 && reserva.data.mes >= tm.tm_mon+1 || reserva.data.mes < tm.tm_mon+1  && reserva.data.dia >= tm.tm_mday || reserva.data.dia <= tm.tm_mday){
+                flg = 1;
+                printf("id: %d \nSala: %d\nDocente: %s\n", reserva.id, reserva.id_TipoSala, select_docente(reserva.id_Docente));
+                printf("Data da reserva: %d/%d/%d\n", reserva.data.dia, reserva.data.mes, reserva.data.ano);
+                printf("\n");
+        }*/
     }
+    fclose(arq);
     if(flg == 0){
         printf("Nao ha reservas!\n");
     }
