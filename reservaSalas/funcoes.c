@@ -381,6 +381,9 @@ void relatorio(){
 }
 
 void reserva(){
+    TipoSala idSala;
+    Docentes idProf;
+    int flg = 0;
     system("cls");
     printf("\t\t--- Reserva de Sala ---\n");
     Reserva reserva;
@@ -398,17 +401,52 @@ void reserva(){
     printf("Informe o id da sala: ");//funcao para encontrar o nome da sala
     scanf("%d", &reserva.id_TipoSala);
 
-    printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
-    scanf("%d", &reserva.id_Docente);
+    printf("%d", reserva.id_TipoSala);
 
-    reserva.id = getId_reserva();
+    FILE *arq;
 
-    if(dbReserva(reserva)){
-        printf("Reserva Cadastrada com sucesso!\n"); // Retorna 1 caso cadastro com success
+    arq = fopen("db/dbSala.bin", "r");
+    while(fread(&idSala, sizeof(idSala), 1, arq))
+    {
+        if(reserva.id_TipoSala == idSala.id){
+            flg = 1;
+            break;
+        }
+    }// AQUI ACABA O WHILE
+    fclose(arq);
+
+    if(flg == 1){
+        flg = 0;
+        printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
+        scanf("%d", &reserva.id_Docente);
+
+        arq = fopen("db/dbDocente.bin", "r");
+        while(fread(&idProf, sizeof(idProf), 1, arq)){
+            if(reserva.id_Docente == idProf.id){
+                flg = 1;
+                break;
+            }
+        }
+
+        if(flg == 1)
+        {
+            fclose(arq);
+            reserva.id = getId_reserva();
+            if(dbReserva(reserva)){
+                printf("Reserva Cadastrada com sucesso!\n"); // Retorna 1 caso cadastro com success
+            }
+            system("pause");
+            menu();
+        }else{
+            printf("O professor informado nao esta cadastrado\n");
+            system("pause");
+            menu();
+        }
+    }else{
+        printf("A sala informada nao existe\n");
+        system("pause");
+        menu();
     }
-
-    system("pause");
-    menu();
 }
 
 int dbReserva(Reserva reserva){
