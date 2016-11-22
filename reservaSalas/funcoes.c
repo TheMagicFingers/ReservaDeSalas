@@ -377,7 +377,71 @@ int getId_docente(){
 }
 
 void relatorio(){
-    printf("Falta implementar!\n");
+    molde("Relatorio gerado com sucesso!");
+    FILE *arq, *arqR;
+    arq = fopen("db/dbSala.bin", "r");
+    arqR = fopen("Relatorio/relatorio.txt", "w");
+    if(arq != NULL){
+        TipoSala sala;
+        fprintf(arqR, "SALAS CADASTRADAS\n");
+        fprintf(arqR, "ID\tNUM/SALA\tTIPO\n");
+        fprintf(arqR, "\n");
+        while(fread(&sala, sizeof(sala), 1, arq)){
+            fprintf(arqR, "%d\t",sala.id);
+            fprintf(arqR,"%c%-6d\t",sala.bloco, sala.numSala);
+            if(sala.caraterSala == 1){
+                fprintf(arqR, "Laboratorio\n");
+            }else if(sala.caraterSala == 2){
+                fprintf(arqR, "Comum\n");
+            }else{
+                fprintf(arqR, "Desconhecido\n");
+            }
+        }
+
+
+    }else {
+        printf("Nao achou");
+    }
+    fclose(arq);
+    fclose(arqR);
+
+    arq = fopen("db/dbDocente.bin", "r");
+    arqR = fopen("Relatorio/relatorio.txt", "a");
+    if(arq != NULL){
+            Docentes docente;
+            fprintf(arqR, "DOCENTES CADASTRADOS\n");
+            fprintf(arqR, "ID\tMatricula\tNome\n");
+            while (fread(&docente, sizeof (docente), 1, arq)) {
+                    fprintf(arqR, "%d\t%d\t\t%s\n", docente.id, docente.mat, docente.nome);
+        }
+    } else {
+    printf("Nao achou");
+}
+    fclose(arq);
+    fclose(arqR);
+
+    arq = fopen("db/dbReserva.bin", "r");
+    arqR = fopen("Relatorio/relatorio.txt", "a");
+    if (arq != NULL) {
+        Reserva reserva;
+        fprintf(arqR, "RESERVAS REALIZADAS\n");
+        fprintf(arqR, "ID\tData da reserva\tSala\tProfessor\n");
+        while (fread(&reserva, sizeof(reserva), 1, arq)) {
+                fprintf(arqR, "%d\t", reserva.id);
+                fprintf(arqR, "%d/%d/%d\t", reserva.data.dia, reserva.data.mes, reserva.data.ano);
+                fprintf(arqR, "%d\t", reserva.id_TipoSala);
+                fprintf(arqR, "%s\t\n", select_docente(reserva.id_Docente));
+
+
+        }
+    }
+    else {
+        printf("Nao achou!");
+    }
+    fclose(arq);
+    fclose(arqR);
+    system("pause");
+    menu();
 }
 
 void reserva(){
