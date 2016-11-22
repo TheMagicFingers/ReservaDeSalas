@@ -1,4 +1,6 @@
 #Arquivo de configuração do git para ignorar todos os arquivos
 #executaveis(exe) quando o projeto sofrer um commit.
 
-*.exe
+reservaSalas\bin\Debug\*.exe
+reservaSalas\db\*.bin
+reservaSalas\obj\Debug\*.o
