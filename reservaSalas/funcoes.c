@@ -16,7 +16,7 @@ void menu(){
     printf("[2] - Salas\n");
     printf("[3] - Docentes\n");
     printf("[4] - Reservas\n");
-    printf("[5] - Relatorios\n");
+    printf("[5] - Gerar Relatorio\n");
     printf("[6] - Sair\n");
     scanf("%d", &op);
 
