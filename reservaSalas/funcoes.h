@@ -160,3 +160,4 @@ void logo();
 
 char* select_docente(int id_docente);
 
+void molde(char *str);

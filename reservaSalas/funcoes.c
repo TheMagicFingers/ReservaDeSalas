@@ -10,9 +10,9 @@
 void menu(){
     int op, op_salas, op_doce, op_reser;
     system("cls");
-    printf("SISTEMA DE CADASTRO E RESERVA DE SALAS\n");
+    molde("SISTEMA DE CADASTRO E RESERVA DE SALAS");
 
-    printf("\n[1] - Datas ja reservadas\n");
+    printf("[1] - Datas ja reservadas\n");
     printf("[2] - Salas\n");
     printf("[3] - Docentes\n");
     printf("[4] - Reservas\n");
@@ -27,8 +27,8 @@ void menu(){
         break;
     case 2:
         system("cls");
-        printf("SALAS\n");
-        printf("\n[1] - Cadastrar\n");
+        molde("MODULO DE SALAS");
+        printf("[1] - Cadastrar\n");
         printf("[2] - Editar\n");
         printf("[3] - Excluir\n");
         printf("[4] - Lista de cadastros\n");
@@ -55,11 +55,11 @@ void menu(){
 
     case 3:
         system("cls");
-        printf("DOCENTES\n");
-        printf("\n[1] - Cadastrar\n");
+        molde("MODULO DE DOCENTES");
+        printf("[1] - Cadastrar\n");
         printf("[2] - Editar\n");
         printf("[3] - Excluir\n");
-        printf("[4] - Lista\n");
+        printf("[4] - Lista de cadastros\n");
         printf("[5] - Voltar\n");
         scanf("%d", &op_doce);
 
@@ -84,8 +84,8 @@ void menu(){
 
     case 4:
         system("cls");
-        printf("RESERVAS\n");
-        printf("\n[1] - Cadastrar\n");
+        molde("MODULO DE RESERVAS");
+        printf("[1] - Cadastrar\n");
         printf("[2] - Editar\n");
         printf("[3] - Excluir\n");
         printf("[4] - Lista de reservas\n");
@@ -376,10 +376,77 @@ int getId_docente(){
 }
 
 void relatorio(){
-    printf("Falta implementar!\n");
+    molde("Relatorio gerado com sucesso!");
+    FILE *arq, *arqR;
+    arq = fopen("db/dbSala.bin", "r");
+    arqR = fopen("Relatorio/relatorio.txt", "w");
+    if(arq != NULL){
+        TipoSala sala;
+        fprintf(arqR, "SALAS CADASTRADAS\n");
+        fprintf(arqR, "ID\tNUM/SALA\tTIPO\n");
+        fprintf(arqR, "\n");
+        while(fread(&sala, sizeof(sala), 1, arq)){
+            fprintf(arqR, "%d\t",sala.id);
+            fprintf(arqR,"%c%-6d\t",sala.bloco, sala.numSala);
+            if(sala.caraterSala == 1){
+                fprintf(arqR, "Laboratorio\n");
+            }else if(sala.caraterSala == 2){
+                fprintf(arqR, "Comum\n");
+            }else{
+                fprintf(arqR, "Desconhecido\n");
+            }
+        }
+
+
+    }else {
+        printf("Nao achou");
+    }
+    fclose(arq);
+    fclose(arqR);
+
+    arq = fopen("db/dbDocente.bin", "r");
+    arqR = fopen("Relatorio/relatorio.txt", "a");
+    if(arq != NULL){
+            Docentes docente;
+            fprintf(arqR, "DOCENTES CADASTRADOS\n");
+            fprintf(arqR, "ID\tMatricula\tNome\n");
+            while (fread(&docente, sizeof (docente), 1, arq)) {
+                    fprintf(arqR, "%d\t%d\t\t%s\n", docente.id, docente.mat, docente.nome);
+        }
+    } else {
+    printf("Nao achou");
+}
+    fclose(arq);
+    fclose(arqR);
+
+    arq = fopen("db/dbReserva.bin", "r");
+    arqR = fopen("Relatorio/relatorio.txt", "a");
+    if (arq != NULL) {
+        Reserva reserva;
+        fprintf(arqR, "RESERVAS REALIZADAS\n");
+        fprintf(arqR, "ID\tData da reserva\tSala\tProfessor\n");
+        while (fread(&reserva, sizeof(reserva), 1, arq)) {
+                fprintf(arqR, "%d\t", reserva.id);
+                fprintf(arqR, "%d/%d/%d\t", reserva.data.dia, reserva.data.mes, reserva.data.ano);
+                fprintf(arqR, "%d\t", reserva.id_TipoSala);
+                fprintf(arqR, "%s\t\n", select_docente(reserva.id_Docente));
+
+
+        }
+    }
+    else {
+        printf("Nao achou!");
+    }
+    fclose(arq);
+    fclose(arqR);
+    system("pause");
+    menu();
 }
 
 void reserva(){
+    TipoSala idSala;
+    Docentes idProf;
+    int flg = 0;
     system("cls");
     printf("\t\t--- Reserva de Sala ---\n");
     Reserva reserva;
@@ -397,17 +464,52 @@ void reserva(){
     printf("Informe o id da sala: ");//funcao para encontrar o nome da sala
     scanf("%d", &reserva.id_TipoSala);
 
-    printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
-    scanf("%d", &reserva.id_Docente);
+    printf("%d", reserva.id_TipoSala);
 
-    reserva.id = getId_reserva();
+    FILE *arq;
 
-    if(dbReserva(reserva)){
-        printf("Reserva Cadastrada com sucesso!\n"); // Retorna 1 caso cadastro com success
+    arq = fopen("db/dbSala.bin", "r");
+    while(fread(&idSala, sizeof(idSala), 1, arq))
+    {
+        if(reserva.id_TipoSala == idSala.id){
+            flg = 1;
+            break;
+        }
+    }// AQUI ACABA O WHILE
+    fclose(arq);
+
+    if(flg == 1){
+        flg = 0;
+        printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
+        scanf("%d", &reserva.id_Docente);
+
+        arq = fopen("db/dbDocente.bin", "r");
+        while(fread(&idProf, sizeof(idProf), 1, arq)){
+            if(reserva.id_Docente == idProf.id){
+                flg = 1;
+                break;
+            }
+        }
+
+        if(flg == 1)
+        {
+            fclose(arq);
+            reserva.id = getId_reserva();
+            if(dbReserva(reserva)){
+                printf("Reserva Cadastrada com sucesso!\n"); // Retorna 1 caso cadastro com success
+            }
+            system("pause");
+            menu();
+        }else{
+            printf("O professor informado nao esta cadastrado\n");
+            system("pause");
+            menu();
+        }
+    }else{
+        printf("A sala informada nao existe\n");
+        system("pause");
+        menu();
     }
-
-    system("pause");
-    menu();
 }
 
 int dbReserva(Reserva reserva){
@@ -864,6 +966,31 @@ void logo(){
     textcolor(7);
 
     login(user, senha);
+}
+
+void molde(char *str){
+    int i, k = strlen(str) + 2;
+    for(i=0;i<k;i++){
+        if(i==0){
+            printf("%c", 201);
+        }else if(i==(k-1)){
+            printf("%c",187);
+        }else{
+            printf("%c", 205);
+        }
+    }
+    printf("\n%c%s%c\n", 186,str,186);
+
+    for(i=0;i<k;i++){
+        if(i==0){
+            printf("%c", 200);
+        }else if(i==(k-1)){
+            printf("%c",188);
+        }else{
+            printf("%c", 205);
+        }
+    }
+    printf("\n");
 }
 /** OBS 1:
 This is a quirk of the C grammar. A label (Cleanup:) is not allowed to appear immediately before a declaration
