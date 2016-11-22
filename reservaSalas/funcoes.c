@@ -573,7 +573,7 @@ void login(char *user, char *senha){
     }else{
         backcolor(4);
         gotoxy(5,15);
-        printf(" O cpf ou a senha estao incorretos. Tente novamente.\n");
+        printf(" O usuario ou a senha estao incorretos. Tente novamente.\n");
         backcolor(0);
         gotoxy(8,16);
         system("pause && cls");
@@ -917,12 +917,12 @@ void logo(){
     int i,j,k=20;
 
     strcpy(&logo[0],"0000000000000000000");
-    strcpy(&logo[1],"0888800888880888880");
+    strcpy(&logo[1],"0888800888880888800");
     strcpy(&logo[2],"0088000800000800080");
-    strcpy(&logo[3],"0088000888800800880");
-    strcpy(&logo[4],"0088000888800800880");
+    strcpy(&logo[3],"0088000888800888880");
+    strcpy(&logo[4],"0088000888800800080");
     strcpy(&logo[5],"0088000800000800080");
-    strcpy(&logo[6],"0888800800000888880");
+    strcpy(&logo[6],"0888800800000888800");
     strcpy(&logo[7],"0000000000000000000");
 
     printf("\n\n");
