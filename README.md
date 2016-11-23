@@ -13,3 +13,5 @@ efetuadas com informação do docente, turma e disciplina;
 + Disponibilizar diversos relatórios com informações sobre as reservas
 
 Programadores envolvidos: [Alan Pires](https://www.github.com/Cziek), [Gustavo Oliveira](https://www.github.com/n0tch) e [Lucas Vieira](https://www.github.com/vieiralc)
+
+![Na Minha Máquina Funciona](https://cdn-images-1.medium.com/max/800/1*UpNbXS_bBURTXqJzvpAqeg.jpeg)
