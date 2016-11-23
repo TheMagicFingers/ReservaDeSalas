@@ -5,10 +5,6 @@
 
 int main()
 {
-    //char *user = entrada_char("Usuario: ");
-    //char *senha = entrada_char("Senha: ");
-    //login(user,senha);
     logo();
-    //menu();
     return 0;
 }
