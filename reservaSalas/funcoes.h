@@ -101,6 +101,11 @@ void reserva();
     e pede ao usuário que digite algo referente
     ao texto que foi recebido pela função
 */
+
+int verificaMES(int mes, int dia);
+
+int bissexto(int ano);
+
 char* entrada_char(char *texto);
 
 /*
