@@ -784,7 +784,7 @@ void reserva(){
     }
 }
 
-void consultaReser(int op_res){
+void consulta(int op_res){
 //alterei a funcao consulta reserva para que ela fique mais generica da seguinte forma:
 //no menu peco para o usuario informar qual objeto ele quer consultar:
 //1 - Salas
