@@ -456,60 +456,143 @@ void reserva(){
 
     printf("Informe o mes: ");
     scanf("%d", &reserva.data.mes);
-
-    printf("Informe o ano: ");
-    scanf("%d", &reserva.data.ano);
-
-    printf("\nSala e responsavel\n");
-    printf("Informe o id da sala: ");//funcao para encontrar o nome da sala
-    scanf("%d", &reserva.id_TipoSala);
-
-    printf("%d", reserva.id_TipoSala);
-
-    FILE *arq;
-
-    arq = fopen("db/dbSala.bin", "r");
-    while(fread(&idSala, sizeof(idSala), 1, arq))
-    {
-        if(reserva.id_TipoSala == idSala.id){
-            flg = 1;
-            break;
-        }
-    }// AQUI ACABA O WHILE
-    fclose(arq);
-
-    if(flg == 1){
-        flg = 0;
-        printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
-        scanf("%d", &reserva.id_Docente);
-
-        arq = fopen("db/dbDocente.bin", "r");
-        while(fread(&idProf, sizeof(idProf), 1, arq)){
-            if(reserva.id_Docente == idProf.id){
-                flg = 1;
-                break;
-            }
-        }
-
-        if(flg == 1)
-        {
-            fclose(arq);
-            reserva.id = getId_reserva();
-            if(dbReserva(reserva)){
-                printf("Reserva Cadastrada com sucesso!\n"); // Retorna 1 caso cadastro com success
-            }
-            system("pause");
-            menu();
-        }else{
-            printf("O professor informado nao esta cadastrado\n");
-            system("pause");
-            menu();
-        }
-    }else{
-        printf("A sala informada nao existe\n");
+    if(verificaMES(reserva.data.mes, reserva.data.dia) == 0){
+        printf("Digite um dia valido!\n");
         system("pause");
         menu();
     }
+    printf("Informe o ano: ");
+    scanf("%d", &reserva.data.ano);
+    if(reserva.data.ano > 2050){
+        printf("Data invalida\n");
+        system("pause");
+        menu();
+    }
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+    if(reserva.data.ano < tm.tm_year+1900){
+        printf("Data invalida\n");
+        system("pause");
+        menu();
+    }else if(reserva.data.ano == tm.tm_year+1900 && reserva.data.mes < tm.tm_mon+1){
+        printf("Data invalida\n");
+        system("pause");
+        menu();
+    }else if(reserva.data.ano == tm.tm_year+1900 && reserva.data.mes == tm.tm_mon+1 && reserva.data.dia < tm.tm_mday){
+        printf("Data invalida\n");
+        system("pause");
+        menu();
+    }else{
+        printf("\n\tSala e responsavel\t\n\n");
+        printf("Informe o id da sala: ");//funcao para encontrar o nome da sala
+        scanf("%d", &reserva.id_TipoSala);
+
+        FILE *arq;
+
+        arq = fopen("db/dbSala.bin", "r");
+        while(fread(&idSala, sizeof(idSala), 1, arq)){
+            if(reserva.id_TipoSala == idSala.id){
+                flg = 1;
+                break;
+            }
+        }// AQUI ACABA O WHILE
+
+        fclose(arq);
+
+        if(flg == 1){
+            flg = 0;
+            printf("Informe o id do professor responsavel: ");//funcao para encontrar a mat do prof
+            scanf("%d", &reserva.id_Docente);
+
+            arq = fopen("db/dbDocente.bin", "r");
+
+            while(fread(&idProf, sizeof(idProf), 1, arq)){
+                if(reserva.id_Docente == idProf.id){
+                    flg = 1;
+                    break;
+                }
+            }
+
+            if(flg == 1){
+                fclose(arq);
+                reserva.id = getId_reserva();
+                if(dbReserva(reserva)){
+                    printf("Reserva Cadastrada com sucesso!\n"); // Retorna 1 caso cadastro com success
+                }
+                system("pause");
+                menu();
+            }else{
+                printf("O professor informado nao esta cadastrado\n");
+                system("pause");
+                menu();
+            }
+        }else{
+            printf("A sala informada nao existe\n");
+            system("pause");
+            menu();
+        }
+    }
+}
+
+int verificaMES(int mes, int dia){
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    switch(mes){
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            if(dia < 1 || dia > 31){
+                return 0;
+            }
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            if(dia < 1 || dia > 30){
+                return 0;
+            }
+            break;
+        case 2:
+            if(bissexto(tm.tm_year+1900) == 1){
+                if(dia < 1 || dia > 29){
+                    return 0;
+                }
+            }else{
+                if(dia < 1 || dia > 28){
+                    return 0;
+                }
+            }
+            break;
+        default:
+            printf("Informe um mes valido!\n");
+            system("pause");
+            menu();
+            break;
+    }
+}
+
+int bissexto(int ano){
+    int biss;
+
+    if (ano % 400 == 0){
+		biss = 1;
+	}else if ((ano % 4 == 0) && (ano % 100 != 0)) {
+		biss = 1;
+	}else{
+		biss = 0;
+	}
+
+	if (biss == 1) {
+		return 1;
+	}else {
+		return 0;
+	}
 }
 
 int dbReserva(Reserva reserva){
