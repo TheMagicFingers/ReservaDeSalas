@@ -45,7 +45,7 @@ void menu(){
             excluirSala();
             break;
         case 4:
-            consultaReser(op);
+            consulta(op);
             break;
         case 5:
             menu();
@@ -79,7 +79,7 @@ void menu(){
             excluirDocente();
             break;
         case 4:
-            consultaReser(op);
+            consulta(op);
             break;
         case 5:
             menu();
@@ -113,7 +113,7 @@ void menu(){
             excluirReserva();
             break;
         case 4:
-            consultaReser(op);
+            consulta(op);
             break;
         case 5:
             menu();
@@ -1024,8 +1024,8 @@ char* entrada_char(char *texto){
 }
 
 void login(char *user, char *senha){
-    char *TrueUser = "Luquinhas";
-    char *TrueSenha = "22k";
+    char *TrueUser = "Tecnico";
+    char *TrueSenha = "4321";
 
     if(strcmp(user,TrueUser) == 0 && strcmp(senha,TrueSenha) == 0){
         menu();
